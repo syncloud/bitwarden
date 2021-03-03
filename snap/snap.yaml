@@ -1,0 +1,31 @@
+apps:
+  server:
+    user: bitwarden
+    command: bin/service.bitwarden.sh start
+    daemon: simple
+    start-timeout: 600s
+    plugs:
+    - network
+    - network-bind
+    restart-condition: always
+    before: [nginx]
+
+  nginx:
+    user: bitwarden
+    command: bin/service.nginx.sh start
+    daemon: simple
+    plugs:
+    - network
+    - network-bind
+    restart-condition: always
+    start-timeout: 600s
+    stop-command: bin/service.nginx.sh stop
+
+  storage-change:
+    command: hooks/storage-change
+
+confinement: strict
+description: Bitwarden
+grade: stable
+name: bitwarden
+summary: Password management
