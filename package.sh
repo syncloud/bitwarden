@@ -9,6 +9,7 @@ if [[ -z "$2" ]]; then
 fi
 
 NAME=$1
+ARCH=$(uname -m)
 DEB_ARCH=$(dpkg-architecture -q DEB_HOST_ARCH)
 VERSION=$2
 BUILD_DIR=${DIR}/build/app
@@ -25,7 +26,8 @@ mv nginx ${BUILD_DIR}/
 ${BUILD_DIR}/python/bin/pip install -r ${DIR}/requirements.txt
 
 cp -r ${DIR}/bin ${BUILD_DIR}
-cd ${DIR}/build/bitwarden_rs/target/x86_64-unknown-linux-musl/release/bitwarden_rs ${BUILD_DIR}/bin/
+cd ${DIR}/build/bitwarden_rs/target/x86_64-unknown-linux-musl/release/bitwarden_rs ${BUILD_DIR}/
+mv ${DIR}/build/web-vault ${BUILD_DIR}/
 cp -r ${DIR}/config ${BUILD_DIR}/config.templates
 cp -r ${DIR}/hooks ${BUILD_DIR}
 

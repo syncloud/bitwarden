@@ -9,7 +9,7 @@ fi
 
 case $1 in
 start)
-    exec ${DIR}/bin/bitwarden_rs "${@}"
+    exec ${DIR}/bitwarden_rs "${@}"
     ;;
 *)
     echo "not valid command"
