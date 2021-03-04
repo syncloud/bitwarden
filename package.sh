@@ -12,6 +12,7 @@ NAME=$1
 ARCH=$(uname -m)
 DEB_ARCH=$(dpkg-architecture -q DEB_HOST_ARCH)
 VERSION=$2
+DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download/1
 BUILD_DIR=${DIR}/build/app
 
 cd ${DIR}/build
