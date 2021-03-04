@@ -36,9 +36,9 @@ mv ${DIR}/build/web-vault ${BUILD_DIR}/
 cp -r ${DIR}/config ${BUILD_DIR}/config.templates
 cp -r ${DIR}/hooks ${BUILD_DIR}
 
-mkdir ${DIR}/build/${NAME}/META
-echo ${NAME} >> ${DIR}/build/${NAME}/META/app
-echo ${VERSION} >> ${DIR}/build/${NAME}/META/version
+mkdir ${BUILD_DIR}/META
+echo ${NAME} >> ${BUILD_DIR}/META/app
+echo ${VERSION} >> ${BUILD_DIR}/META/version
 
 echo "snapping"
 SNAP_DIR=${DIR}/build/snap
