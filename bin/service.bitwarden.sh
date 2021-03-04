@@ -9,6 +9,10 @@ fi
 
 case $1 in
 start)
+    export DOMAIN=http://localhost:3011
+    export WEBSOCKET_ENABLED=true
+    export WEBSOCKET_ADDRESS=localhost
+    export WEBSOCKET_PORT=3012
     exec ${DIR}/bitwarden_rs "${@}"
     ;;
 *)
