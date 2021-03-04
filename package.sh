@@ -14,11 +14,12 @@ DEB_ARCH=$(dpkg-architecture -q DEB_HOST_ARCH)
 VERSION=$2
 DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download/1
 BUILD_DIR=${DIR}/build/app
+mkdir $BUILD_DIR
 
 cd ${DIR}/build
 wget --progress=dot:giga ${DOWNLOAD_URL}/python-${ARCH}.tar.gz
 tar xf python-${ARCH}.tar.gz
-mv python ${BUILD_DIR}
+mv python ${BUILD_DIR}/
 
 wget --progress=dot:giga ${DOWNLOAD_URL}/nginx-${ARCH}.tar.gz
 tar xf nginx-${ARCH}.tar.gz
