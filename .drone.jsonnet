@@ -31,7 +31,8 @@ local build(arch) = {
                 "VERSION=$(cat version)",
                 "cd build/bitwarden_rs",
                 "rustup set profile minimal",
-                "cargo build --features sqlite --release"
+                "cargo build --features sqlite --release",
+                "ldd target/release/bitwarden_rs"
             ]
         },
         {

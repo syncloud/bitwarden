@@ -25,6 +25,7 @@ steps:
   - cd build/bitwarden_rs
   - rustup set profile minimal
   - cargo build --features sqlite --release
+  - ldd target/release/bitwarden_rs
 
 - name: package
   image: syncloud/build-deps-arm
@@ -122,6 +123,7 @@ steps:
   - cd build/bitwarden_rs
   - rustup set profile minimal
   - cargo build --features sqlite --release
+  - ldd target/release/bitwarden_rs
 
 - name: package
   image: syncloud/build-deps-amd64
