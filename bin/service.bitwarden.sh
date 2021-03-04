@@ -13,6 +13,7 @@ start)
     export WEBSOCKET_ENABLED=true
     export WEBSOCKET_ADDRESS=localhost
     export WEBSOCKET_PORT=3012
+    export LD_LIBRARY_PATH=${DIR}/lib
     exec ${DIR}/bitwarden_rs "${@}"
     ;;
 *)

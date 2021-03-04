@@ -32,6 +32,8 @@ ls -la ${DIR}/build
 ls -la ${DIR}/build/bitwarden_rs/target/
 ls -la ${DIR}/build/bitwarden_rs/target/release
 cp ${DIR}/build/bitwarden_rs/target/release/bitwarden_rs ${BUILD_DIR}/
+mkdir ${BUILD_DIR}/lib
+cp /usr/lib/$(dpkg-architecture -q DEB_HOST_GNU_TYPE)/libssl.so* ${BUILD_DIR}/lib
 mv ${DIR}/build/web-vault ${BUILD_DIR}/
 cp -r ${DIR}/config ${BUILD_DIR}/config.templates
 cp -r ${DIR}/hooks ${BUILD_DIR}
