@@ -26,6 +26,10 @@ steps:
   - rustup set profile minimal
   - cargo build --features sqlite --release
   - ldd target/release/bitwarden_rs
+  - mkdir ../lib
+  - cd ../lib
+  - cp /usr/lib/*/libssl.so* .
+  - cp /usr/lib/*/libcrypto.so* .
 
 - name: package
   image: syncloud/build-deps-arm
@@ -124,6 +128,10 @@ steps:
   - rustup set profile minimal
   - cargo build --features sqlite --release
   - ldd target/release/bitwarden_rs
+  - mkdir ../lib
+  - cd ../lib
+  - cp /usr/lib/*/libssl.so* .
+  - cp /usr/lib/*/libcrypto.so* .
 
 - name: package
   image: syncloud/build-deps-amd64
