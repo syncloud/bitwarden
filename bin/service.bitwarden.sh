@@ -7,14 +7,15 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
+export DOMAIN=http://localhost:3011
+export WEBSOCKET_ENABLED=true
+export WEBSOCKET_ADDRESS=localhost
+export WEBSOCKET_PORT=3012
+export LD_LIBRARY_PATH=${DIR}/lib
+
 case $1 in
 start)
-    export DOMAIN=http://localhost:3011
-    export WEBSOCKET_ENABLED=true
-    export WEBSOCKET_ADDRESS=localhost
-    export WEBSOCKET_PORT=3012
-    export LD_LIBRARY_PATH=${DIR}/lib
-    exec ${DIR}/bitwarden_rs "${@}"
+    exec ${DIR}/lib/ld.so ${DIR}/bitwarden_rs "${@}"
     ;;
 *)
     echo "not valid command"

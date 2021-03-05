@@ -36,7 +36,14 @@ local build(arch) = {
                 "mkdir ../lib",
                 "cd ../lib",
                 "cp /usr/lib/*/libssl.so* .",
-                "cp /usr/lib/*/libcrypto.so* ."
+                "cp /usr/lib/*/libcrypto.so* .",
+                "cp /lib/*/libgcc_s.so* .",
+                "cp /lib/*/librt.so* .",
+                "cp /lib/*/libpthread.so* .",
+                "cp /lib/*/libm.so* .",
+                "cp /lib/*/libdl.so* .",
+                "cp /lib/*/libc.so* .",
+                "cp $(readlink -f /lib*/ld-linux-*.so*) ./ld.so"
             ]
         },
         {
