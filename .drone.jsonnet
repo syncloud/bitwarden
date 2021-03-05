@@ -32,7 +32,11 @@ local build(arch) = {
                 "cd build/bitwarden_rs",
                 "rustup set profile minimal",
                 "cargo build --features sqlite --release",
-                "ldd target/release/bitwarden_rs"
+                "ldd target/release/bitwarden_rs",
+                "mkdir ../lib",
+                "cd ../lib",
+                "cp /usr/lib/*/libssl.so* .",
+                "cp /usr/lib/*/libcrypto.so* ."
             ]
         },
         {

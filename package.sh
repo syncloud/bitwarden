@@ -28,13 +28,9 @@ mv nginx ${BUILD_DIR}/
 ${BUILD_DIR}/python/bin/pip install -r ${DIR}/requirements.txt
 
 cp -r ${DIR}/bin ${BUILD_DIR}
-ls -la ${DIR}/build
-ls -la ${DIR}/build/bitwarden_rs/target/
 ls -la ${DIR}/build/bitwarden_rs/target/release
 cp ${DIR}/build/bitwarden_rs/target/release/bitwarden_rs ${BUILD_DIR}/
-ldd ${BUILD_DIR}/bitwarden_rs
-mkdir ${BUILD_DIR}/lib
-cp /usr/lib/$(dpkg-architecture -q DEB_HOST_GNU_TYPE)/libssl.so* ${BUILD_DIR}/lib
+mv ${DIR}/build/lib ${BUILD_DIR}/lib
 mv ${DIR}/build/web-vault ${BUILD_DIR}/
 cp -r ${DIR}/config ${BUILD_DIR}/config.templates
 cp -r ${DIR}/hooks ${BUILD_DIR}
