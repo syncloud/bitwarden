@@ -26,6 +26,7 @@ class Installer:
         
         fs.makepath(join(self.common_dir, 'log'))
         fs.makepath(join(self.common_dir, 'nginx'))
+        fs.makepath(join(self.snap_data_dir, 'data'))
 
         storage.init_storage(APP_NAME, USER_NAME)
 
