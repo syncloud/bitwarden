@@ -15,7 +15,7 @@ export LD_LIBRARY_PATH=${DIR}/lib
 
 case $1 in
 start)
-    exec ${DIR}/lib/ld.so ${DIR}/bitwarden_rs "${@}"
+    exec ${DIR}/lib/ld.so ${DIR}/bitwarden_rs
     ;;
 *)
     echo "not valid command"
