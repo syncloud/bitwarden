@@ -32,6 +32,7 @@ def module_setup(request, device, data_dir, platform_data_dir, app_dir, artifact
         device.run_ssh('ls -la {0}/web/ > {1}/web.ls.log'.format(app_dir, TMP_DIR), throw=False)
         device.run_ssh('ls -la {0}/log/ > {1}/log.ls.log'.format(data_dir, TMP_DIR), throw=False)
         device.run_ssh('ls -la {0}/ > {1}/snap.data.ls.log'.format(snap_data_dir, TMP_DIR), throw=False)
+        device.run_ssh('ls -la {0}/data > {1}/snap.data.data.ls.log'.format(snap_data_dir, TMP_DIR), throw=False)
       
         app_log_dir = join(artifact_dir, 'log')
         os.mkdir(app_log_dir)
