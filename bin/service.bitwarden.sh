@@ -7,13 +7,8 @@ if [[ -z "$1" ]]; then
     exit 1
 fi
 
-export DOMAIN=http://localhost:3011
-export WEBSOCKET_ENABLED=true
-export WEBSOCKET_ADDRESS=localhost
-export WEBSOCKET_PORT=3012
 export LD_LIBRARY_PATH=${DIR}/lib
-export DATA_FOLDER=/var/snap/bitwarden/current/data
-
+cd ${SNAP_DATA}/config
 
 case $1 in
 start)
