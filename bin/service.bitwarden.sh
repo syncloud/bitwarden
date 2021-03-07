@@ -12,8 +12,8 @@ export WEBSOCKET_ENABLED=true
 export WEBSOCKET_ADDRESS=localhost
 export WEBSOCKET_PORT=3012
 export LD_LIBRARY_PATH=${DIR}/lib
-export DATA_FOLDER=/var/snap/bitwarden/current
-. ${SNAP_DATA}/config/.env
+export DATA_FOLDER=/var/snap/bitwarden/current/data
+
 
 case $1 in
 start)
