@@ -4,5 +4,13 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )
 
 export LD_LIBRARY_PATH=${DIR}/lib
 export PATH=${DIR}/bin:${PATH}
-cd ${SNAP_DATA}/config
-exec ${DIR}/lib/ld.so ${DIR}/bin/bitwarden_rs
+
+case $1 in
+start)
+    ${DIR}/bin/openssl "$@"
+    ;;
+*)
+    echo "not valid command"
+    exit 1
+    ;;
+esac
