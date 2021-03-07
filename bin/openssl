@@ -1,8 +1,9 @@
 #!/bin/bash -e
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )
+export LD_LIBRARY_PATH=${SNAP}/lib
+export PATH=${SNAP}/bin:${PATH}
 
-export LD_LIBRARY_PATH=${DIR}/lib
-export PATH=${DIR}/bin:${PATH}
+${SNAP}/lib/ld.so ${SNAP}/bin/openssl.bin "$@"
+}/bin:${PATH}
 
 ${DIR}/lib/ld.so ${DIR}/bin/openssl.bin "$@"
