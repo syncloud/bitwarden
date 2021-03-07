@@ -28,22 +28,7 @@ local build(arch) = {
             name: "build",
             image: "rust:1.50",
             commands: [
-                "VERSION=$(cat version)",
-                "cd build/bitwarden_rs",
-                "rustup set profile minimal",
-                "cargo build --features sqlite --release",
-                "ldd target/release/bitwarden_rs",
-                "mkdir ../lib",
-                "cd ../lib",
-                "cp /usr/lib/*/libssl.so* .",
-                "cp /usr/lib/*/libcrypto.so* .",
-                "cp /lib/*/libgcc_s.so* .",
-                "cp /lib/*/librt.so* .",
-                "cp /lib/*/libpthread.so* .",
-                "cp /lib/*/libm.so* .",
-                "cp /lib/*/libdl.so* .",
-                "cp /lib/*/libc.so* .",
-                "cp $(readlink -f /lib*/ld-linux-*.so*) ./ld.so"
+                "./build.sh"
             ]
         },
         {

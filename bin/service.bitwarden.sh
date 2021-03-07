@@ -8,11 +8,12 @@ if [[ -z "$1" ]]; then
 fi
 
 export LD_LIBRARY_PATH=${DIR}/lib
+export PATH=${DIR}/bin:${PATH}
 cd ${SNAP_DATA}/config
 
 case $1 in
 start)
-    exec ${DIR}/lib/ld.so ${DIR}/bitwarden_rs
+    exec ${DIR}/lib/ld.so ${DIR}/bin/bitwarden_rs
     ;;
 *)
     echo "not valid command"
