@@ -21,4 +21,4 @@ cp /lib/*/libpthread.so* ${DIR}/build/lib
 cp /lib/*/libm.so* ${DIR}/build/lib
 cp /lib/*/libdl.so* ${DIR}/build/lib
 cp /lib/*/libc.so* ${DIR}/build/lib
-cp $(readlink -f /lib*/ld-linux-*.so*) ./ld.so
+cp $(readlink -f /lib*/ld-linux-*.so*) ${DIR}/build/lib/ld.so
