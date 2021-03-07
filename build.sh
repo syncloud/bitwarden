@@ -4,7 +4,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 mkdir -p ${DIR}/build/bin
 which openssl
-cp $(which openssl) ${DIR}/build/bin
+cp $(which openssl) ${DIR}/build/bin/openssl.bin
 
 cd ${DIR}/build/bitwarden_rs
 rustup set profile minimal
