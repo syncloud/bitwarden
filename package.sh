@@ -27,6 +27,8 @@ mv nginx ${BUILD_DIR}/
 
 ${BUILD_DIR}/python/bin/pip install -r ${DIR}/requirements.txt
 
+mkdir ${BUILD_DIR}/bin
+cp -r ${DIR}/build/bin/* ${BUILD_DIR}/bin
 cp -r ${DIR}/bin/* ${BUILD_DIR}/bin
 mv ${DIR}/build/lib ${BUILD_DIR}/lib
 mv ${DIR}/build/web-vault ${BUILD_DIR}/
