@@ -2,7 +2,6 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )
 
-export LD_LIBRARY_PATH=${DIR}/lib
 export PATH=${DIR}/bin:${PATH}
 cd ${SNAP_DATA}/config
-exec ${DIR}/lib/ld.so ${DIR}/bin/bitwarden_rs
+exec ${DIR}/bin/bitwarden_rs

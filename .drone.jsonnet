@@ -26,7 +26,7 @@ local build(arch) = {
         },
         {
             name: "build",
-            image: "rust:1.50",
+            image: "bitwardenrs/server:1.19.0-alpine",
             commands: [
                 "./build.sh"
             ]
