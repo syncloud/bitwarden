@@ -1,4 +1,5 @@
 #!/bin/bash -e
 DIR=/snap/bitwarden/current
+echo "$@" | logger -t bitwarden-openssl
 export LD_LIBRARY_PATH=${DIR}/openssl/lib
 ${DIR}/openssl/bin/openssl.bin "$@"
