@@ -25,6 +25,10 @@ wget --progress=dot:giga ${DOWNLOAD_URL}/nginx-${ARCH}.tar.gz
 tar xf nginx-${ARCH}.tar.gz
 mv nginx ${BUILD_DIR}/
 
+wget -c --progress=dot:giga ${DOWNLOAD_URL}/openssl-${ARCH}.tar.gz
+tar xf openssl-${ARCH}.tar.gz
+mv openssl ${BUILD_DIR}/
+
 ${BUILD_DIR}/python/bin/pip install -r ${DIR}/requirements.txt
 
 mkdir ${BUILD_DIR}/bin

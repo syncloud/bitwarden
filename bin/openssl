@@ -3,4 +3,4 @@
 export LD_LIBRARY_PATH=${SNAP}/lib
 export PATH=${SNAP}/bin:${PATH}
 
-${SNAP}/lib/ld.so ${SNAP}/bin/openssl.bin "$@"
+${SNAP}/openssl/bin/openssl "$@"
