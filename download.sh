@@ -4,7 +4,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 BITWARDEN_WEB_VERSION=2.18.2
 DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download/1
-
+ARCH=$(uname -m)
 rm -rf ${DIR}/build
 BUILD_DIR=${DIR}/build
 mkdir -p ${BUILD_DIR}
