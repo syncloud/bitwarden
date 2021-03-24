@@ -10,9 +10,9 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # custom build
 cd ${DIR}/build/bitwarden_rs
 
-ENV DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 TZ=UTC TERM=xterm-256color
-ENV USER "root"
-ENV RUSTFLAGS='-C link-arg=-s'
+export DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 TZ=UTC TERM=xterm-256color
+export USER=root
+export RUSTFLAGS='-C link-arg=-s'
 
 rustup set profile minimal
 rustup target add x86_64-unknown-linux-musl
