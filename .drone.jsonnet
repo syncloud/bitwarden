@@ -41,7 +41,7 @@ local build(arch) = {
             ]
         },
         {
-            name: "test-intergation",
+            name: "test-integration",
             image: "syncloud/build-deps-" + arch,
             commands: [
               "pip2 install -r dev_requirements.txt",

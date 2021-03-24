@@ -29,7 +29,7 @@ steps:
   - VERSION=$(cat version)
   - ./package.sh bitwarden $VERSION
 
-- name: test-intergation
+- name: test-integration
   image: syncloud/build-deps-amd64
   commands:
   - pip2 install -r dev_requirements.txt
