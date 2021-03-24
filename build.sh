@@ -17,8 +17,8 @@ export RUSTFLAGS='-C link-arg=-s'
 rustup set profile minimal
 rustup target add x86_64-unknown-linux-musl
 cargo build --features sqlite --release --target=x86_64-unknown-linux-musl
-ldd target/release/bitwarden_rs
-cp ${DIR}/build/bitwarden_rs/target/release/bitwarden_rs ${DIR}/build/bin
+ldd target/x86_64-unknown-linux-musl/release/bitwarden_rs
+cp ${DIR}/build/bitwarden_rs/target/x86_64-unknown-linux-musl/release/bitwarden_rs ${DIR}/build/bin
 
 mkdir ${DIR}/build/lib
 cp /usr/lib/*/libssl.so* ${DIR}/build/lib
