@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash -xe
 
-mkdir -p build/bin
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
 
 # upstream binary
+#mkdir -p build/bin
 #cp /bitwarden_rs build/bin
 
 # custom build
