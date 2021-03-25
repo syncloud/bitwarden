@@ -31,7 +31,7 @@ def test_index(selenium):
 
 
 def test_login(selenium, device_user, device_password):
-    selenium.find_by_id("email").send_keys(device_user)
+    selenium.find_by_id("email").send_keys('{}@example.com'.format(device_user))
     selenium.find_by_id("masterPassword").send_keys(device_password)
     selenium.screenshot('login-credentials')
     selenium.find_by_xpath("//button[@type='submit']").click()
