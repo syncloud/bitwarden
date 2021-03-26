@@ -1,5 +1,99 @@
 ---
 kind: pipeline
+name: arm
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+- name: version
+  image: syncloud/build-deps-arm
+  commands:
+  - echo $(date +%y%m%d)$DRONE_BUILD_NUMBER > version
+  - echo arm$DRONE_BRANCH > domain
+
+- name: download
+  image: syncloud/build-deps-arm
+  commands:
+  - ./download.sh
+
+- name: build
+  image: bitwardenrs/server:1.19.0-alpine
+  commands:
+  - ./build.sh
+
+- name: package
+  image: syncloud/build-deps-arm
+  commands:
+  - VERSION=$(cat version)
+  - ./package.sh bitwarden $VERSION
+
+- name: test-integration
+  image: syncloud/build-deps-arm
+  commands:
+  - pip2 install -r dev_requirements.txt
+  - APP_ARCHIVE_PATH=$(realpath $(cat package.name))
+  - DOMAIN=$(cat domain)
+  - cd integration
+  - py.test -x -s verify.py --domain=$DOMAIN --app-archive-path=$APP_ARCHIVE_PATH --device-host=device --app=bitwarden
+
+
+
+- name: upload
+  image: syncloud/build-deps-arm
+  commands:
+  - VERSION=$(cat version)
+  - PACKAGE=$(cat package.name)
+  - pip2 install -r dev_requirements.txt
+  - syncloud-upload.sh bitwarden $DRONE_BRANCH $VERSION $PACKAGE
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+
+- name: artifact
+  image: appleboy/drone-scp
+  settings:
+    command_timeout: 2m
+    host:
+      from_secret: artifact_host
+    key:
+      from_secret: artifact_key
+    source: artifact/*
+    strip_components: 1
+    target: /home/artifact/repo/bitwarden/${DRONE_BUILD_NUMBER}-arm
+    timeout: 2m
+    username: artifact
+  when:
+    status:
+    - failure
+    - success
+
+services:
+- name: device
+  image: syncloud/systemd-arm
+  privileged: true
+  volumes:
+  - name: dbus
+    path: /var/run/dbus
+  - name: dev
+    path: /dev
+
+
+volumes:
+- name: dbus
+  host:
+    path: /var/run/dbus
+- name: dev
+  host:
+    path: /dev
+- name: shm
+  temp: {}
+
+---
+kind: pipeline
 name: amd64
 
 platform:
@@ -19,7 +113,7 @@ steps:
   - ./download.sh
 
 - name: build
-  image: clux/muslrust:nightly-2021-02-22
+  image: bitwardenrs/server:1.19.0-alpine
   commands:
   - ./build.sh
 

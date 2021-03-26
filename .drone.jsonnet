@@ -26,8 +26,8 @@ local build(arch) = {
         },
         {
             name: "build",
-            //image: "bitwardenrs/server:1.19.0-alpine",
-            image: "clux/muslrust:nightly-2021-02-22",
+            image: "bitwardenrs/server:1.19.0-alpine",
+            //image: "clux/muslrust:nightly-2021-02-22",
             commands: [
                 "./build.sh"
             ]
@@ -167,6 +167,6 @@ local build(arch) = {
 };
 
 [
-    //build("arm"),
+    build("arm"),
     build("amd64")
 ]
