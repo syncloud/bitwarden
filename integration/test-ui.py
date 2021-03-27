@@ -49,4 +49,3 @@ def test_login(selenium, device_user, device_password):
     selenium.find_by_xpath("//button[@type='submit']").click()
     selenium.find_by_xpath("//a[text()='My vault']")
     selenium.screenshot('main')
-)
