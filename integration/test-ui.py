@@ -33,9 +33,12 @@ def test_index(selenium):
 def test_register(selenium, device_user, device_password):
     selenium.find_by_xpath("//a[contains(.,'Create Account')]").click()
     selenium.find_by_id("email").send_keys('{}@example.com'.format(device_user))
-    # selenium.find_by_id("masterPassword").send_keys(device_password)
-    # selenium.screenshot('login-credentials')
-    # selenium.find_by_xpath("//button[@type='submit']").click()
+    selenium.find_by_id("name").send_keys("Test User")
+    selenium.find_by_id("masterPassword").send_keys(device_password)
+    selenium.find_by_id("masterPasswordRetype").send_keys(device_password)
+    selenium.find_by_id("acceptPolicies").click()
+    selenium.screenshot('register-credentials')
+    selenium.find_by_xpath("//button[@type='submit']").click()
     selenium.screenshot('register')
 
 
