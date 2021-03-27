@@ -6,7 +6,7 @@ from syncloudlib.integration.hosts import add_host_alias_by_ip
 
 DIR = dirname(__file__)
 TMP_DIR = '/tmp/syncloud/ui'
-
+PASSWORD='Pa$wo4d1'
 
 @pytest.fixture(scope="session")
 def module_setup(request, device, artifact_dir, ui_mode):
@@ -34,8 +34,8 @@ def test_register(selenium, device_user, device_password):
     selenium.find_by_xpath("//a[contains(.,'Create Account')]").click()
     selenium.find_by_id("email").send_keys('{}@example.com'.format(device_user))
     selenium.find_by_id("name").send_keys("Test User")
-    selenium.find_by_id("masterPassword").send_keys(device_password)
-    selenium.find_by_id("masterPasswordRetype").send_keys(device_password)
+    selenium.find_by_id("masterPassword").send_keys(PASSWORD)
+    selenium.find_by_id("masterPasswordRetype").send_keys(PASSWORD)
     selenium.find_by_id("acceptPolicies").click()
     selenium.screenshot('register-credentials')
     selenium.find_by_xpath("//button[@type='submit']").click()
@@ -44,8 +44,9 @@ def test_register(selenium, device_user, device_password):
 
 def test_login(selenium, device_user, device_password):
     selenium.find_by_id("email").send_keys('{}@example.com'.format(device_user))
-    selenium.find_by_id("masterPassword").send_keys(device_password)
+    selenium.find_by_id("masterPassword").send_keys(PASSWORD)
     selenium.screenshot('login-credentials')
     selenium.find_by_xpath("//button[@type='submit']").click()
     selenium.find_by_xpath("//a[text()='My vault']")
     selenium.screenshot('main')
+)
