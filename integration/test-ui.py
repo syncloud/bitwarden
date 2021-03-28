@@ -48,5 +48,5 @@ def test_login(selenium, device_user, device_password):
     selenium.find_by_id("masterPassword").send_keys(PASSWORD)
     selenium.screenshot('login-credentials')
     login.click()
-    selenium.find_by_xpath("//a[text()='My vault']")
+    selenium.find_by_xpath("//a[text()='My Vault']")
     selenium.screenshot('main')
