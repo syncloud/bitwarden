@@ -43,8 +43,10 @@ def test_register(selenium, device_user, device_password):
 
 
 def test_login(selenium, device_user, device_password):
+    login = selenium.find_by_xpath("//button[contains(.,'Log In')]")
+    # selenium.find_by_id("email").send_keys('{}@example.com'.format(device_user))
     selenium.find_by_id("masterPassword").send_keys(PASSWORD)
     selenium.screenshot('login-credentials')
-    selenium.find_by_xpath("//a[contains(.,'Log In')]").click()
+    login.click()
     selenium.find_by_xpath("//a[text()='My vault']")
     selenium.screenshot('main')
