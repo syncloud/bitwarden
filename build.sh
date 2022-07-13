@@ -8,7 +8,7 @@ mkdir -p $BUILD_DIR
 # upstream binary
 mkdir -p $BUILD_DIR/bin
 cp /vaultwarden $BUILD_DIR/bin
-
+cp -r /web-vault ${BUILD_DIR}
 # custom build
 #cd ${DIR}/build/bitwarden_rs
 #export DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 TZ=UTC TERM=xterm-256color
