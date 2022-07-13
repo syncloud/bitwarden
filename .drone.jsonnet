@@ -26,7 +26,7 @@ local build(arch, test_ui) = [{
         },
         {
             name: "build",
-            image: "bitwardenrs/server:1.19.0-alpine",
+            image: "vaultwarden/server:1.25.0-alpine",
             //image: "clux/muslrust:nightly-2021-02-22",
             commands: [
                 "./build.sh"
