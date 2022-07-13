@@ -2,7 +2,7 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-BITWARDEN_WEB_VERSION=2.18.2
+BITWARDEN_WEB_VERSION=2022.6.0
 #BITWARDEN_RS_VERSION=master
 DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download
 ARCH=$(uname -m)
