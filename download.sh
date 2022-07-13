@@ -7,8 +7,11 @@ BITWARDEN_WEB_VERSION=2.18.2
 DOWNLOAD_URL=https://github.com/syncloud/3rdparty/releases/download
 ARCH=$(uname -m)
 BUILD_DIR=${DIR}/build/snap
-mkdir -p $BUILD_DIR
 
+apt update
+apt -y install wget unzip
+
+mkdir -p $BUILD_DIR
 cd ${DIR}/build
 
 #wget --progress=dot:giga https://github.com/cyberb/bitwarden_rs/archive/${BITWARDEN_RS_VERSION}.tar.gz
