@@ -176,22 +176,7 @@ local build(arch, test_ui) = [{
             "pull_request"
           ]
         },
-        services: ( if arch == "amd64" then [
-            {
-                name: name + ".jessie.com",
-                image: "syncloud/platform-jessie-" + arch,
-                privileged: true,
-                volumes: [
-                    {
-                        name: "dbus",
-                        path: "/var/run/dbus"
-                    },
-                    {
-                        name: "dev",
-                        path: "/dev"
-                    }
-                ]
-            }] else []) + [
+        services: [
             {
                 name: name + ".buster.com",
                 image: "syncloud/platform-buster-" + arch + ":22.01",

@@ -7,7 +7,7 @@ mkdir -p $BUILD_DIR
 
 # upstream binary
 mkdir -p $BUILD_DIR/bin
-cp /bitwarden_rs $BUILD_DIR/bin
+cp /vaultwarden $BUILD_DIR/bin
 
 # custom build
 #cd ${DIR}/build/bitwarden_rs
