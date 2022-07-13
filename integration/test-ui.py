@@ -8,6 +8,7 @@ DIR = dirname(__file__)
 TMP_DIR = '/tmp/syncloud/ui'
 PASSWORD='Ngpqy8Bfk123'
 
+
 @pytest.fixture(scope="session")
 def module_setup(request, device, artifact_dir, ui_mode):
     def module_teardown():

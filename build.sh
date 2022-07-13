@@ -2,11 +2,12 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-
-mkdir -p ${DIR}/build/bin
+BUILD_DIR=${DIR}/build/snap
+mkdir -p $BUILD_DIR
 
 # upstream binary
-cp /bitwarden_rs build/bin
+mkdir -p $BUILD_DIR/bin
+cp /bitwarden_rs $BUILD_DIR/bin
 
 # custom build
 #cd ${DIR}/build/bitwarden_rs

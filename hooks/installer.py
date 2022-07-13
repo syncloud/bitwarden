@@ -1,8 +1,7 @@
-import logging
 import os
 from os.path import join, isfile
 
-from syncloudlib import fs, linux, gen, logger
+from syncloudlib import fs, linux, gen
 from syncloudlib.application import paths, storage
 
 APP_NAME = 'bitwarden'
@@ -11,10 +10,6 @@ USER_NAME = APP_NAME
 
 class Installer:
     def __init__(self):
-        if not logger.factory_instance:
-            logger.init(logging.DEBUG, True)
-
-        self.log = logger.get_logger('{0}_installer'.format(APP_NAME))
         self.app_dir = paths.get_app_dir(APP_NAME)
         self.common_dir = paths.get_data_dir(APP_NAME)
         self.snap_data_dir = os.environ['SNAP_DATA']
@@ -30,7 +25,7 @@ class Installer:
 
         storage.init_storage(APP_NAME, USER_NAME)
 
-        templates_path = join(self.app_dir, 'config.templates')
+        templates_path = join(self.app_dir, 'config')
         config_path = join(self.snap_data_dir, 'config')
 
         variables = {
