@@ -50,3 +50,7 @@ def test_login(selenium):
     login.click()
     selenium.find_by_xpath("//a[text()='My Vault']")
     selenium.screenshot('main')
+
+
+def test_teardown(driver):
+    driver.quit()
