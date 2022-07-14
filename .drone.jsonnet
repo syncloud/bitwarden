@@ -29,9 +29,6 @@ local build(arch, test_ui) = [{
             image: "vaultwarden/server:1.25.0-alpine",
             //image: "clux/muslrust:nightly-2021-02-22",
             commands: [
-                "apk update",
-                "apk upgrade",
-                "apk add bash",
                 "./build.sh"
             ]
         },
