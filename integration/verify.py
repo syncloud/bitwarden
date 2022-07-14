@@ -52,9 +52,10 @@ def test_activate_device(device):
     assert response.status_code == 200, response.text
 
 
-def test_install(app_archive_path, device_host, device_session, device_password):
+def test_install(app_archive_path, device_host, device_session, device_password, domain):
     local_install(device_host, device_password, app_archive_path)
-    wait_for_installer(device_session, device_host)
+    wait_for_installer(device_session, domain)
+
 
 def test_index(app_domain):
     response = requests.get('https://{0}'.format(app_domain), verify=False)
