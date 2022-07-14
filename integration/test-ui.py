@@ -37,7 +37,7 @@ def test_register(selenium, device_user, ui_mode):
     selenium.find_by_id("name").send_keys("Test User")
     selenium.find_by_id("masterPassword").send_keys(PASSWORD)
     selenium.find_by_id("masterPasswordRetype").send_keys(PASSWORD)
-    selenium.find_by_id("acceptPolicies").click()
+#    selenium.find_by_id("acceptPolicies").click()
     selenium.screenshot('register-credentials')
     selenium.find_by_xpath("//button[@type='submit']").click()
     selenium.screenshot('register')
