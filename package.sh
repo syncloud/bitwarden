@@ -8,39 +8,28 @@ if [[ -z "$2" ]]; then
 fi
 
 NAME=$1
-DEB_ARCH=$(dpkg-architecture -q DEB_HOST_ARCH)
 VERSION=$2
-BUILD_DIR=${DIR}/build/app
-mkdir $BUILD_DIR
-
-mv ${DIR}/build/python ${BUILD_DIR}
-mv ${DIR}/build/nginx ${BUILD_DIR}
-mv ${DIR}/build/openssl ${BUILD_DIR}
-mv ${DIR}/build/bin ${BUILD_DIR}
-mv ${DIR}/build/web-vault ${BUILD_DIR}
-
-cp -r ${DIR}/bin/* ${BUILD_DIR}/bin
-cp -r ${DIR}/config ${BUILD_DIR}/config.templates
-cp -r ${DIR}/hooks ${BUILD_DIR}
-
-mkdir ${BUILD_DIR}/META
-echo ${NAME} >> ${BUILD_DIR}/META/app
-echo ${VERSION} >> ${BUILD_DIR}/META/version
-
-echo "snapping"
+ARCH=$(dpkg --print-architecture)
 SNAP_DIR=${DIR}/build/snap
-rm -rf ${DIR}/*.snap
-mkdir ${SNAP_DIR}
-cp -r ${BUILD_DIR}/* ${SNAP_DIR}/
-cp -r ${DIR}/snap/meta ${SNAP_DIR}/
-cp ${DIR}/snap/snap.yaml ${SNAP_DIR}/meta/snap.yaml
+
+apt update
+apt -y install squashfs-tools
+
+cp -r ${DIR}/bin/* ${SNAP_DIR}/bin
+cp -r ${DIR}/config ${SNAP_DIR}
+cp -r ${DIR}/hooks ${SNAP_DIR}
+cp -r ${DIR}/meta ${SNAP_DIR}
+
+mkdir ${SNAP_DIR}/META
+echo ${NAME} >> ${SNAP_DIR}/META/app
+echo ${VERSION} >> ${SNAP_DIR}/META/version
+
 echo "version: $VERSION" >> ${SNAP_DIR}/meta/snap.yaml
 echo "architectures:" >> ${SNAP_DIR}/meta/snap.yaml
-echo "- ${DEB_ARCH}" >> ${SNAP_DIR}/meta/snap.yaml
+echo "- ${ARCH}" >> ${SNAP_DIR}/meta/snap.yaml
 
-PACKAGE=${NAME}_${VERSION}_${DEB_ARCH}.snap
+PACKAGE=${NAME}_${VERSION}_${ARCH}.snap
 echo ${PACKAGE} > ${DIR}/package.name
 mksquashfs ${SNAP_DIR} ${DIR}/${PACKAGE} -noappend -comp xz -no-xattrs -all-root
-
 mkdir ${DIR}/artifact
 cp ${DIR}/${PACKAGE} ${DIR}/artifact

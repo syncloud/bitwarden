@@ -2,11 +2,12 @@ from os.path import dirname, join
 from subprocess import check_output
 
 import pytest
-from syncloudlib.integration.hosts import add_host_alias_by_ip
+from syncloudlib.integration.hosts import add_host_alias
 
 DIR = dirname(__file__)
 TMP_DIR = '/tmp/syncloud/ui'
 PASSWORD='Ngpqy8Bfk123'
+
 
 @pytest.fixture(scope="session")
 def module_setup(request, device, artifact_dir, ui_mode):
@@ -22,7 +23,7 @@ def module_setup(request, device, artifact_dir, ui_mode):
 
 
 def test_start(module_setup, app, domain, device_host):
-    add_host_alias_by_ip(app, domain, device_host)
+    add_host_alias(app, device_host, domain)
 
 
 def test_index(selenium):
@@ -36,7 +37,7 @@ def test_register(selenium, device_user, ui_mode):
     selenium.find_by_id("name").send_keys("Test User")
     selenium.find_by_id("masterPassword").send_keys(PASSWORD)
     selenium.find_by_id("masterPasswordRetype").send_keys(PASSWORD)
-    selenium.find_by_id("acceptPolicies").click()
+#    selenium.find_by_id("acceptPolicies").click()
     selenium.screenshot('register-credentials')
     selenium.find_by_xpath("//button[@type='submit']").click()
     selenium.screenshot('register')
@@ -49,3 +50,7 @@ def test_login(selenium):
     login.click()
     selenium.find_by_xpath("//a[text()='My Vault']")
     selenium.screenshot('main')
+
+
+def test_teardown(driver):
+    driver.quit()

@@ -1,13 +1,15 @@
-#!/bin/sh
+#!/bin/sh -e
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+SCRIPT=$(readlink -f "$0")
+DIR=$(dirname "$SCRIPT")
 
-
-mkdir -p ${DIR}/build/bin
+BUILD_DIR=$DIR/build/snap
+mkdir -p $BUILD_DIR
 
 # upstream binary
-cp /bitwarden_rs build/bin
-
+mkdir -p $BUILD_DIR/bin
+cp /vaultwarden $BUILD_DIR/bin
+cp -r /web-vault $BUILD_DIR
 # custom build
 #cd ${DIR}/build/bitwarden_rs
 #export DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 TZ=UTC TERM=xterm-256color
