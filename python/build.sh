@@ -8,6 +8,7 @@ docker ps -a -q --filter ancestor=python:syncloud --format="{{.ID}}" | xargs doc
 docker rmi python:syncloud || true
 while ! docker build -t python:syncloud . ; do
   echo "retry docker"
+  sleep 1
 done
 docker run python:syncloud python --help
 docker create --name=python python:syncloud
