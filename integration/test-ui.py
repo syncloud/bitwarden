@@ -32,7 +32,7 @@ def test_index(selenium):
 
 
 def test_register(selenium, device_user, ui_mode):
-    selenium.find_by_xpath("//a[contains(.,'Create Account')]").click()
+    selenium.find_by_xpath("//a[contains(.,'Create account')]").click()
     selenium.find_by_id("email").send_keys('{}-{}@example.com'.format(device_user, ui_mode))
     selenium.find_by_id("name").send_keys("Test User")
     selenium.find_by_id("masterPassword").send_keys(PASSWORD)
