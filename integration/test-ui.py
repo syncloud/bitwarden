@@ -44,7 +44,7 @@ def test_register(selenium, device_user, ui_mode):
 
 
 def test_login(selenium):
-    login = selenium.find_by_xpath("//span[contains(.,'Continue')]")
+    login = selenium.find_by_xpath("//span[contains(.,'Continue')]").click()
     selenium.find_by_id("login_input_master-password").send_keys(PASSWORD)
     selenium.screenshot('login-credentials')
     login.click()
