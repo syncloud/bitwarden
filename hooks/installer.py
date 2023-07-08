@@ -2,7 +2,7 @@ import os
 from os.path import join, isfile
 
 from syncloudlib import fs, linux, gen
-from syncloudlib.application import paths, storage
+from syncloudlib.application import paths, storage, urls
 
 APP_NAME = 'bitwarden'
 USER_NAME = APP_NAME
@@ -32,7 +32,8 @@ class Installer:
             'app': APP_NAME,
             'app_dir': self.app_dir,
             'common_dir': self.common_dir,
-            'snap_data': self.snap_data_dir
+            'snap_data': self.snap_data_dir,
+            'url': urls.get_app_url(APP_NAME)
         }
         gen.generate_files(templates_path, config_path, variables)
         fs.chownpath(self.snap_data_dir, USER_NAME, recursive=True)
