@@ -1,4 +1,4 @@
-#!/snap/notes/current/python/bin/python
+#!/snap/bitwarden/current/python/bin/python
 
 from installer import Installer
 

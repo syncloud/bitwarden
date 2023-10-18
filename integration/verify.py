@@ -62,6 +62,10 @@ def test_index(app_domain):
     assert response.status_code == 200, response.text
 
 
+def test_storage_change_event(device):
+    device.run_ssh('snap run bitwarden.storage-change > {0}/storage-change.log'.format(TMP_DIR))
+
+
 def test_remove(device, app):
     response = device.app_remove(app)
     assert response.status_code == 200, response.text
