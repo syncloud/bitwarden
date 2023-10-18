@@ -45,6 +45,7 @@ def module_setup(request, device, data_dir, platform_data_dir, app_dir, artifact
 def test_start(module_setup, device, app, domain, device_host):
     add_host_alias(app, device_host, domain)
     device.run_ssh('date', retries=100, throw=True)
+    device.run_ssh('mkdir {0}'.format(TMP_DIR))
 
 
 def test_activate_device(device):
