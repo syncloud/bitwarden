@@ -1,6 +1,6 @@
 local name = "bitwarden";
 local browser = "firefox";
-local veraion = "1.30.3"
+local version = "1.30.3";
 
 local build(arch, test_ui, dind) = [{
     kind: "pipeline",
