@@ -1,5 +1,6 @@
 local name = "bitwarden";
 local browser = "firefox";
+local veraion = "1.30.3"
 
 local build(arch, test_ui, dind) = [{
     kind: "pipeline",
@@ -26,7 +27,7 @@ local build(arch, test_ui, dind) = [{
         },
         {
             name: "build",
-            image: "vaultwarden/server:1.28.1-alpine",
+            image: "vaultwarden/server:" + version + "-alpine",
             commands: [
                 "./build.sh"
             ]
