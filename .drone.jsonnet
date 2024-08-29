@@ -1,5 +1,6 @@
 local name = "bitwarden";
 local browser = "firefox";
+local nginx = '1.24.0';
 local version = "1.32.0";
 local browser = "firefox";
 local platform = '24.05';
