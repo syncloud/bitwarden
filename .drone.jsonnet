@@ -1,6 +1,10 @@
 local name = "bitwarden";
 local browser = "firefox";
-local version = "1.30.3";
+local nginx = '1.24.0';
+local version = "1.32.0";
+local browser = "firefox";
+local platform = '24.05';
+local selenium = '4.21.0-20240517';
 local deployer = "https://github.com/syncloud/store/releases/download/4/syncloud-release";
 
 local build(arch, test_ui, dind) = [{
@@ -19,13 +23,20 @@ local build(arch, test_ui, dind) = [{
                 "echo $DRONE_BUILD_NUMBER > version"
             ]
         },
-        {
-            name: "download",
-            image: "debian:buster-slim",
-            commands: [
-                "./download.sh"
-            ]
-        },
+{
+      name: 'nginx',
+      image: 'nginx:' + nginx,
+      commands: [
+        './nginx/build.sh',
+      ],
+    },
+    {
+      name: 'nginx test',
+      image: 'syncloud/platform-buster-' + arch + ':' + platform,
+      commands: [
+        './nginx/test.sh',
+      ],
+    },
         {
             name: "build",
             image: "vaultwarden/server:" + version + "-alpine",
@@ -65,9 +76,28 @@ local build(arch, test_ui, dind) = [{
             ]
         }] +
         ( if test_ui then ([
+{
+            name: "selenium",
+            image: "selenium/standalone-" + browser + ":" + selenium,
+            detach: true,
+            environment: {
+                SE_NODE_SESSION_TIMEOUT: "999999",
+                START_XVFB: "true"
+            },
+               volumes: [{
+                name: "shm",
+                path: "/dev/shm"
+            }],
+            commands: [
+                "cat /etc/hosts",
+                "getent hosts " + name + ".buster.com | sed 's/" + name +".buster.com/auth.buster.com/g' | sudo tee -a /etc/hosts",
+                "cat /etc/hosts",
+                "/opt/bin/entry_point.sh"
+            ]
+         },
         {
             name: "selenium-video",
-            image: "selenium/video:ffmpeg-4.3.1-20220208",
+            image: "selenium/video:ffmpeg-6.1.1-20240621",
             detach: true,
             environment: {
                 "DISPLAY_CONTAINER_NAME": "selenium",
@@ -213,7 +243,7 @@ local build(arch, test_ui, dind) = [{
         },
             {
                 name: name + ".buster.com",
-                image: "syncloud/platform-buster-" + arch + ":22.01",
+                image: "syncloud/platform-buster-" + arch + ":" + platform,
                 privileged: true,
                 volumes: [
                     {
@@ -226,19 +256,7 @@ local build(arch, test_ui, dind) = [{
                     }
                 ]
             }
-        ] + ( if test_ui then [
-            {
-                name: "selenium",
-                image: "selenium/standalone-" + browser + ":4.1.2-20220208",
-                environment: {
-                    SE_NODE_SESSION_TIMEOUT: "999999"
-                },
-                volumes: [{
-                    name: "shm",
-                    path: "/dev/shm"
-                }]
-            }
-        ] else [] ),
+        ],
         volumes: [
             {
                 name: "dbus",
