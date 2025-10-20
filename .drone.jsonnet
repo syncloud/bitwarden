@@ -4,6 +4,7 @@ local version = "1.34.3";
 local browser = "firefox";
 local python = '3.12-slim-bookworm';
 local debian = 'bookworm-slim';
+local platform = '25.08';
 local selenium = '4.21.0-20240517';
 local deployer = 'https://github.com/syncloud/store/releases/download/4/syncloud-release';
 local distro_default = "bookworm";
