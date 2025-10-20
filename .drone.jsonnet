@@ -1,11 +1,13 @@
 local name = "bitwarden";
-local browser = "firefox";
 local nginx = '1.24.0';
-local version = "1.33.2";
+local version = "1.34.3";
 local browser = "firefox";
-local platform = '24.05';
+local python = '3.12-slim-bookworm';
+local debian = 'bookworm-slim';
 local selenium = '4.21.0-20240517';
-local deployer = "https://github.com/syncloud/store/releases/download/4/syncloud-release";
+local deployer = 'https://github.com/syncloud/store/releases/download/4/syncloud-release';
+local distro_default = "bookworm";
+local distros = ["bookworm"];
 
 local build(arch, test_ui, dind) = [{
     kind: "pipeline",
@@ -18,7 +20,7 @@ local build(arch, test_ui, dind) = [{
     steps: [
         {
             name: "version",
-            image: "debian:buster-slim",
+            image: "debian:" + debian,
             commands: [
                 "echo $DRONE_BUILD_NUMBER > version"
             ]
@@ -59,7 +61,7 @@ local build(arch, test_ui, dind) = [{
         },
         {
             name: "package",
-            image: "debian:buster-slim",
+            image: "debian:" + debian,
             commands: [
                 "VERSION=$(cat version)",
                 "./package.sh " + name + " $VERSION "
@@ -67,12 +69,12 @@ local build(arch, test_ui, dind) = [{
         },
         {
             name: "test",
-            image: "python:3.8-slim-buster",
+            image: "python:" + python,
             commands: [
               "APP_ARCHIVE_PATH=$(realpath $(cat package.name))",
               "cd test",
               "./deps.sh",
-              "py.test -x -s test.py --distro=buster --domain=buster.com --app-archive-path=$APP_ARCHIVE_PATH --device-host=" + name + ".buster.com --app=" + name + " --arch=" + arch
+              'py.test -x -s test.py --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name + ' --browser=' + browser, 
             ]
         }] +
         ( if test_ui then ([
@@ -116,25 +118,25 @@ local build(arch, test_ui, dind) = [{
         },
         {
             name: "test-ui",
-            image: "python:3.8-slim-buster",
+            image: "python:" + python,
             commands: [
               "cd test",
               "./deps.sh",
               "pip install -r requirements.txt",
-              "py.test -x -s test-ui.py --distro=buster --domain=buster.com --device-host=" + name + ".buster.com --app=" + name + " --browser=" + browser,
-            ]
+              'py.test -x -s ui.py --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name + ' --browser=' + browser,
+                        ]
         }])
        else [] ) +
        ( if arch == "amd64" then [
         {
             name: "test-upgrade",
-            image: "python:3.8-slim-buster",
+            image: "python:" + python,
             commands: [
               "APP_ARCHIVE_PATH=$(realpath $(cat package.name))",
               "cd test",
               "./deps.sh",
-              "py.test -x -s test-upgrade.py --distro=buster --domain=buster.com --app-archive-path=$APP_ARCHIVE_PATH --device-host=" + name + ".buster.com --app=" + name + " --browser=" + browser,
-            ],
+              'py.test -x -s upgrade.py --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name + ' --browser=' + browser,
+                        ],
             privileged: true,
             volumes: [{
                 name: "videos",
@@ -143,7 +145,7 @@ local build(arch, test_ui, dind) = [{
         } ] else [] ) + [
         {
         name: "upload",
-        image: "debian:buster-slim",
+        image: "debian:" + debian,
         environment: {
             AWS_ACCESS_KEY_ID: {
                 from_secret: "AWS_ACCESS_KEY_ID"
@@ -169,7 +171,7 @@ local build(arch, test_ui, dind) = [{
     },
     {
             name: "promote",
-            image: "debian:buster-slim",
+            image: "debian:" + debian,
             environment: {
                 AWS_ACCESS_KEY_ID: {
                     from_secret: "AWS_ACCESS_KEY_ID"
