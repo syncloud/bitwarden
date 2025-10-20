@@ -67,17 +67,19 @@ local build(arch, test_ui, dind) = [{
                 "VERSION=$(cat version)",
                 "./package.sh " + name + " $VERSION "
             ]
-        },
-        {
-            name: "test",
-            image: "python:" + python,
-            commands: [
-              "APP_ARCHIVE_PATH=$(realpath $(cat package.name))",
-              "cd test",
-              "./deps.sh",
-              'py.test -x -s test.py --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name + ' --browser=' + browser, 
-            ]
-        }] +
+        }
+       ] + [
+           {
+             name: 'test ' + distro,
+             image: 'python:' + python,
+             commands: [
+               'cd test',
+               './deps.sh',
+               'py.test -x -s test.py --distro=' + distro + ' --ver=$DRONE_BUILD_NUMBER --app=' + name,
+             ],
+           }
+           for distro in distros
+] + 
         ( if test_ui then ([
 {
             name: "selenium",
@@ -243,23 +245,25 @@ local build(arch, test_ui, dind) = [{
                     path: "/var/run"
                 }
             ]
+        }
+            ] + [
+    {
+      name: name + '.' + distro + '.com',
+      image: 'syncloud/platform-' + distro + '-' + arch + ':' + platform,
+      privileged: true,
+      volumes: [
+        {
+          name: 'dbus',
+          path: '/var/run/dbus',
         },
-            {
-                name: name + ".buster.com",
-                image: "syncloud/platform-buster-" + arch + ":" + platform,
-                privileged: true,
-                volumes: [
-                    {
-                        name: "dbus",
-                        path: "/var/run/dbus"
-                    },
-                    {
-                        name: "dev",
-                        path: "/dev"
-                    }
-                ]
-            }
-        ],
+        {
+          name: 'dev',
+          path: '/dev',
+        },
+      ],
+    }
+    for distro in distros
+  ],
         volumes: [
             {
                 name: "dbus",
