@@ -35,7 +35,7 @@ local build(arch, test_ui, dind) = [{
     },
     {
       name: 'nginx test',
-      image: 'syncloud/platform-buster-' + arch + ':' + platform,
+      image: 'syncloud/platform-' + distro_default + '-' + arch + ':' + platform,
       commands: [
         './nginx/test.sh',
       ],
