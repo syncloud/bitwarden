@@ -3,10 +3,11 @@ from subprocess import check_output
 
 import pytest
 from syncloudlib.integration.hosts import add_host_alias
+from test import lib
 
 DIR = dirname(__file__)
 TMP_DIR = '/tmp/syncloud/ui'
-PASSWORD='Ngpqy8Bfk123'
+
 
 
 @pytest.fixture(scope="session")
@@ -32,23 +33,12 @@ def test_index(selenium):
 
 
 def test_register(selenium, device_user, ui_mode):
-    selenium.find_by_xpath("//a[contains(.,'Create account')]").click()
-    selenium.find_by_id("register-start_form_input_email").send_keys('{}-{}@example.com'.format(device_user, ui_mode))
-    selenium.find_by_id("register-start_form_input_name").send_keys("Test User")
-    selenium.find_by_xpath("//button[@type='submit']").click()
-    selenium.find_by_id("input-password-form_new-password").send_keys(PASSWORD)
-    selenium.find_by_id("input-password-form_new-password-confirm").send_keys(PASSWORD)
-#    selenium.find_by_id("acceptPolicies").click()
-    selenium.screenshot('register-credentials')
-    selenium.find_by_xpath("//button[@type='submit']").click()
-    selenium.screenshot('register')
-
+    lib.register(selenium, device_user, ui_mode)
+    
 
 def test_login(selenium):
-    selenium.find_by_xpath("//span[contains(.,'Continue')]").click()
-    selenium.find_by_xpath("//input[@type='password']").send_keys(PASSWORD)
-    selenium.screenshot('login-credentials')
-    selenium.find_by_xpath("//span[contains(.,'Log in')]").click()
+    # lib.login(selenium)
     selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
+
     selenium.screenshot('main')
 
