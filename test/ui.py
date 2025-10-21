@@ -37,7 +37,7 @@ def test_register(selenium, device_user, ui_mode):
     selenium.find_by_id("register-start_form_input_name").send_keys("Test User")
     selenium.find_by_xpath("//button[@type='submit']").click()
     selenium.find_by_id("input-password-form_new-password").send_keys(PASSWORD)
-    selenium.find_by_id("input-password-form_new-confirm").send_keys(PASSWORD)
+    selenium.find_by_id("input-password-form_new-password-confirm").send_keys(PASSWORD)
 #    selenium.find_by_id("acceptPolicies").click()
     selenium.screenshot('register-credentials')
     selenium.find_by_xpath("//button[@type='submit']").click()
@@ -51,3 +51,4 @@ def test_login(selenium):
     selenium.find_by_xpath("//span[contains(.,'Log in')]").click()
     selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
     selenium.screenshot('main')
+
