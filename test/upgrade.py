@@ -32,6 +32,8 @@ def test_upgrade(device, selenium, device_user, device_password, device_host, ap
     device.run_ssh('snap install bitwarden', retries=10)
     wait_for_rest(requests.session(), "https://{0}".format(app_domain), 200, 10)
     selenium.open_app()
+    selenium.screenshot('upgrade-before')
+
     lib.register_prev(selenium, device_user, ui_mode)
     lib.login(selenium)
 
