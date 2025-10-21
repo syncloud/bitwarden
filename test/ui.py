@@ -35,6 +35,7 @@ def test_register(selenium, device_user, ui_mode):
     selenium.find_by_xpath("//a[contains(.,'Create account')]").click()
     selenium.find_by_id("register-start_form_input_email").send_keys('{}-{}@example.com'.format(device_user, ui_mode))
     selenium.find_by_id("register-start_form_input_name").send_keys("Test User")
+    selenium.find_by_xpath("//button[@type='submit']").click()
     selenium.find_by_id("register-start_form_input_master-password").send_keys(PASSWORD)
     selenium.find_by_id("register-start_form_input_confirm-master-password").send_keys(PASSWORD)
 #    selenium.find_by_id("acceptPolicies").click()
