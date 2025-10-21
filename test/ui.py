@@ -33,7 +33,7 @@ def test_index(selenium):
 
 
 def test_register(selenium, device_user, ui_mode):
-    lib.register(selenium, device_user, ui_mode)
+    lib.register_next(selenium, device_user, ui_mode)
     
 
 def test_login(selenium):

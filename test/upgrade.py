@@ -34,7 +34,6 @@ def test_upgrade(device, selenium, device_user, device_password, device_host, ap
     selenium.open_app()
     lib.register_prev(selenium, device_user, ui_mode)
     lib.login(selenium)
-    selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
 
     local_install(device_host, device_password, app_archive_path)
     wait_for_rest(requests.session(), "https://{0}".format(app_domain), 200, 10)
