@@ -135,7 +135,6 @@ local build(arch, test_ui, dind) = [{
             name: "test-upgrade",
             image: "python:" + python,
             commands: [
-              "APP_ARCHIVE_PATH=$(realpath $(cat package.name))",
               "cd test",
               "./deps.sh",
               'py.test -x -s upgrade.py --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name + ' --browser=' + browser,
