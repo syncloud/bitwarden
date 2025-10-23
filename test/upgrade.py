@@ -30,7 +30,7 @@ def test_start(module_setup, app, device_host, domain, device):
 def test_upgrade(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
     device.run_ssh('snap remove bitwarden')
     device.run_ssh('snap install bitwarden', retries=10)
-    wait_for_rest(requests.session(), "https://{0}/api/config ".format(app_domain), 200, 10)
+    wait_for_rest(requests.session(), "https://{0}/api/config".format(app_domain), 200, 10)
     selenium.open_app()
     selenium.driver.refresh()
     selenium.screenshot('upgrade-before')
@@ -43,4 +43,5 @@ def test_upgrade(device, selenium, device_user, device_password, device_host, ap
     selenium.open_app()
     selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
     selenium.screenshot('upgraded')
+
 
