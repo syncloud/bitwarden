@@ -80,8 +80,8 @@ local build(arch, test_ui, dind) = [{
            }
            for distro in distros
 ] + 
-        ( if test_ui then ([
-{
+        ( if test_ui then [
+         {
             name: "selenium",
             image: "selenium/standalone-" + browser + ":" + selenium,
             detach: true,
@@ -127,7 +127,7 @@ local build(arch, test_ui, dind) = [{
               "./deps.sh",
               "pip install -r requirements.txt",
               'py.test -x -s ui.py --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name + ' --browser=' + browser,
-                        ]
+            ]
         },
         {
             name: "test-upgrade",
@@ -142,7 +142,8 @@ local build(arch, test_ui, dind) = [{
                 name: "videos",
                 path: "/videos"
             }]
-        } ] else [] ) + [
+        }
+      ] else [] ) + [
         {
         name: "upload",
         image: "debian:" + debian,
