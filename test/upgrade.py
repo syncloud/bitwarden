@@ -52,6 +52,6 @@ def test_upgrade(device, selenium, device_user, device_password, device_host, ap
 @pytest.mark.flaky(retries=3, delay=10)
 def test_login_next(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
     selenium.open_app()
-    selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
+    lib.unlock(selenium)
     selenium.screenshot('upgraded')
 

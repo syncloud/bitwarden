@@ -32,3 +32,12 @@ def login(selenium):
     selenium.screenshot('login-credentials')
     selenium.find_by_xpath("//span[contains(.,'Log in')]").click()
     selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
+
+def unlock(selenium):
+    selenium.find_by_xpath("//span[contains(.,'Unlock')]").click()
+    selenium.find_by_xpath("//input[@type='password']").send_keys(PASSWORD)
+    selenium.screenshot('unlock-credentials')
+    selenium.find_by_xpath("//span[contains(.,'Unlock')]").click()
+    selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
+
+
