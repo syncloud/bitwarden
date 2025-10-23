@@ -5,7 +5,7 @@ local browser = "firefox";
 local python = '3.12-slim-bookworm';
 local debian = 'bookworm-slim';
 local platform = '25.09';
-local selenium = '4.21.0-20240517';
+local selenium = '4.35.0-20250828';
 local deployer = 'https://github.com/syncloud/store/releases/download/4/syncloud-release';
 local distro_default = "bookworm";
 local distros = ["bookworm"];
@@ -128,9 +128,7 @@ local build(arch, test_ui, dind) = [{
               "pip install -r requirements.txt",
               'py.test -x -s ui.py --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name + ' --browser=' + browser,
                         ]
-        }])
-       else [] ) +
-       ( if arch == "amd64" then [
+        },
         {
             name: "test-upgrade",
             image: "python:" + python,
