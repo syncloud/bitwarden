@@ -12,6 +12,7 @@ def register_prev(selenium, device_user, ui_mode):
     selenium.find_by_xpath("//button[@type='submit']").click()
     selenium.screenshot('register')
 
+
 def register_next(selenium, device_user, ui_mode):
     selenium.find_by_xpath("//a[contains(.,'Create account')]").click()
     selenium.find_by_id("register-start_form_input_email").send_keys('{}-{}@example.com'.format(device_user, ui_mode))
@@ -25,8 +26,7 @@ def register_next(selenium, device_user, ui_mode):
     selenium.screenshot('register')
 
 
-
-def login(selenium, user):
+def login(selenium):
     selenium.find_by_xpath("//span[contains(.,'Continue')]").click()
     selenium.find_by_xpath("//input[@type='password']").send_keys(PASSWORD)
     selenium.screenshot('login-credentials')
