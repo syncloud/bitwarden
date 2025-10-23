@@ -33,7 +33,7 @@ def test_upgrade(device, selenium, device_user, device_password, device_host, ap
     wait_for_rest(requests.session(), "https://{0}".format(app_domain), 200, 10)
     wait_for_rest(requests.session(), "https://{0}/api/config".format(app_domain), 200, 10)
     selenium.open_app()
-    #selenium.driver.refresh()
+    selenium.driver.refresh()
     selenium.screenshot('upgrade-before')
 
     lib.register_prev(selenium, device_user, ui_mode)
@@ -44,3 +44,4 @@ def test_upgrade(device, selenium, device_user, device_password, device_host, ap
     selenium.open_app()
     selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
     selenium.screenshot('upgraded')
+
