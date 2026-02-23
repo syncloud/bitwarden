@@ -48,16 +48,15 @@ local build(arch, test_ui, dind) = [{
             ]
         },
         {
-            name: "python",
-            image: "docker:" + dind,
+            name: "cli",
+            image: "golang:1.24.0",
             commands: [
-                "./python/build.sh"
-            ],
-            volumes: [
-                {
-                    name: "dockersock",
-                    path: "/var/run"
-                }
+                "cd cli",
+                "mkdir -p ../build/snap/meta/hooks",
+                "CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/meta/hooks/install ./cmd/install",
+                "CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/meta/hooks/configure ./cmd/configure",
+                "CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/meta/hooks/post-refresh ./cmd/post-refresh",
+                "CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/bin/cli ./cmd/cli",
             ]
         },
         {
