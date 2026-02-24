@@ -1,6 +1,6 @@
 local name = "bitwarden";
 local nginx = '1.24.0';
-local version = "1.34.3";
+local version = "1.35.4";
 local browser = "firefox";
 local python = '3.12-slim-bookworm';
 local debian = 'bookworm-slim';
