@@ -2,15 +2,7 @@ PASSWORD='Ngpqy8Bfk123'
 
 
 def register_prev(selenium, device_user, ui_mode):
-    selenium.find_by_xpath("//a[contains(.,'Create account')]").click()
-    selenium.find_by_id("register-form_input_email").send_keys('{}-{}@example.com'.format(device_user, ui_mode))
-    selenium.find_by_id("register-form_input_name").send_keys("Test User")
-    selenium.find_by_id("register-form_input_master-password").send_keys(PASSWORD)
-    selenium.find_by_id("register-form_input_confirm-master-password").send_keys(PASSWORD)
-#    selenium.find_by_id("acceptPolicies").click()
-    selenium.screenshot('register-credentials')
-    selenium.find_by_xpath("//button[@type='submit']").click()
-    selenium.screenshot('register')
+    register_next(selenium, device_user, ui_mode)
 
 
 def register_next(selenium, device_user, ui_mode):
