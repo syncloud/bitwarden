@@ -38,7 +38,17 @@ def test_install_prev(device, selenium, device_user, device_password, device_hos
 def test_register_prev(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
     selenium.open_app()
     selenium.driver.delete_all_cookies()
-    selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
+    selenium.driver.execute_script("""
+        localStorage.clear();
+        sessionStorage.clear();
+        indexedDB.databases().then(dbs => dbs.forEach(db => indexedDB.deleteDatabase(db.name)));
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+        }
+        if ('caches' in window) {
+            caches.keys().then(names => names.forEach(name => caches.delete(name)));
+        }
+    """)
     selenium.open_app()
     selenium.screenshot('upgrade-before')
 
