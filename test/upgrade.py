@@ -37,6 +37,7 @@ def test_install_prev(device, selenium, device_user, device_password, device_hos
 @pytest.mark.flaky(retries=3, delay=10)
 def test_register_prev(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
     selenium.driver.delete_all_cookies()
+    selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
     selenium.open_app()
     selenium.driver.refresh()
     selenium.screenshot('upgrade-before')
