@@ -37,8 +37,7 @@ def test_register(selenium, device_user, ui_mode):
     
 
 def test_login(selenium):
-    # lib.login(selenium)
+    selenium.find_by_xpath("//a[contains(text(), 'Add it later')]").click()
     selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
-
     selenium.screenshot('main')
 
