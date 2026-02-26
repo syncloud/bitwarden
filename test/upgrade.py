@@ -40,8 +40,7 @@ def test_register_prev(device, selenium, device_user, device_password, device_ho
     selenium.open_app()
     selenium.driver.delete_all_cookies()
     selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
-    cache_bust = '?_={}'.format(int(time.time()))
-    selenium.open_app(path=cache_bust)
+    selenium.open_app(path='#/')
     selenium.screenshot('upgrade-before')
 
     lib.register_prev(selenium, device_user, ui_mode)
