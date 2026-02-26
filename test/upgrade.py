@@ -1,3 +1,4 @@
+import time
 import pytest
 from subprocess import check_output
 from syncloudlib.integration.hosts import add_host_alias
@@ -38,18 +39,9 @@ def test_install_prev(device, selenium, device_user, device_password, device_hos
 def test_register_prev(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
     selenium.open_app()
     selenium.driver.delete_all_cookies()
-    selenium.driver.execute_script("""
-        localStorage.clear();
-        sessionStorage.clear();
-        indexedDB.databases().then(dbs => dbs.forEach(db => indexedDB.deleteDatabase(db.name)));
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
-        }
-        if ('caches' in window) {
-            caches.keys().then(names => names.forEach(name => caches.delete(name)));
-        }
-    """)
-    selenium.open_app()
+    selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
+    cache_bust = '?_={}'.format(int(time.time()))
+    selenium.open_app(path=cache_bust)
     selenium.screenshot('upgrade-before')
 
     lib.register_prev(selenium, device_user, ui_mode)
