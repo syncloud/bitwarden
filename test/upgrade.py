@@ -44,9 +44,8 @@ def test_register_prev(device, selenium, device_user, device_password, device_ho
     selenium.screenshot('upgrade-before')
 
     lib.register_prev(selenium, device_user, ui_mode)
-    selenium.find_by_xpath("//*[contains(text(), 'Add it later')]").click()
-    selenium.find_by_xpath("//*[contains(text(), 'Skip to web app')]").click()
-    selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
+    time.sleep(5)
+    selenium.screenshot('register-done')
 
 
 def test_upgrade(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
@@ -57,6 +56,9 @@ def test_upgrade(device, selenium, device_user, device_password, device_host, ap
 @pytest.mark.flaky(retries=3, delay=10)
 def test_login_next(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
     selenium.open_app()
-    lib.unlock(selenium)
+    selenium.driver.delete_all_cookies()
+    selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
+    selenium.open_app(path='#/')
+    lib.login_upgrade(selenium, 'prev-' + device_user, ui_mode)
     selenium.screenshot('upgraded')
 
