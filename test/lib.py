@@ -2,7 +2,7 @@ PASSWORD='Ngpqy8Bfk123'
 
 
 def register_prev(selenium, device_user, ui_mode):
-    register_next(selenium, device_user, ui_mode)
+    register_next(selenium, 'prev-' + device_user, ui_mode)
 
 
 def register_next(selenium, device_user, ui_mode):

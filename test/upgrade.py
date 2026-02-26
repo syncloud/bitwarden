@@ -44,7 +44,9 @@ def test_register_prev(device, selenium, device_user, device_password, device_ho
     selenium.screenshot('upgrade-before')
 
     lib.register_prev(selenium, device_user, ui_mode)
-    lib.login(selenium)
+    selenium.find_by_xpath("//*[contains(text(), 'Add it later')]").click()
+    selenium.find_by_xpath("//*[contains(text(), 'Skip to web app')]").click()
+    selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
 
 
 def test_upgrade(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
