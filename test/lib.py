@@ -31,8 +31,6 @@ def login_upgrade(selenium, device_user, ui_mode):
     selenium.find_by_xpath("//input[@type='password']").send_keys(PASSWORD)
     selenium.screenshot('login-upgrade-credentials')
     selenium.find_by_xpath("//button[contains(.,'Log in with master password')]").click()
-    selenium.find_by_xpath("//*[contains(text(), 'Add it later')]").click()
-    selenium.find_by_xpath("//*[contains(text(), 'Skip to web app')]").click()
     selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
 
 

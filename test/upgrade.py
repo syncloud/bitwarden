@@ -58,7 +58,7 @@ def test_login_next(device, selenium, device_user, device_password, device_host,
     selenium.open_app()
     selenium.driver.delete_all_cookies()
     selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
-    selenium.open_app(path='#/')
+    selenium.open_app(path='?_={}#/'.format(int(time.time())))
     lib.login_upgrade(selenium, 'prev-' + device_user, ui_mode)
     selenium.screenshot('upgraded')
 
