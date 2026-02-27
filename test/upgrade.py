@@ -44,6 +44,7 @@ def test_register_prev(device, selenium, device_user, device_password, device_ho
     selenium.screenshot('upgrade-before')
 
     lib.register_prev(selenium, device_user, ui_mode)
+    time.sleep(5)
     selenium.screenshot('register-done')
 
 
@@ -53,7 +54,7 @@ def test_login_prev(device, selenium, device_user, device_password, device_host,
     selenium.driver.delete_all_cookies()
     selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
     selenium.open_app(path='#/')
-    lib.login_upgrade(selenium, 'prev-' + device_user, ui_mode)
+    lib.login_stable(selenium, 'prev-' + device_user, ui_mode)
     selenium.screenshot('login-prev-done')
 
 
