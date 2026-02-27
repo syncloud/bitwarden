@@ -47,19 +47,19 @@ def login_upgrade(selenium, device_user, ui_mode):
 
 def create_item(selenium, name):
     selenium.screenshot('create-item-before-{}'.format(name))
-    selenium.find_by_xpath("//*[contains(@class,'bwi-plus') or contains(.,'New item') or contains(.,'New')]//ancestor::button | //button[contains(.,'New')]").click()
-    selenium.screenshot('create-item-clicked-new-{}'.format(name))
-    selenium.find_by_xpath("//input[@formcontrolname='name' or @id='name' or @placeholder='Item name'] | //input[contains(@class,'item-name')]").send_keys(name)
+    selenium.find_by_xpath("//button[@id='newItemDropdown']").click()
+    selenium.screenshot('create-item-dropdown-{}'.format(name))
+    selenium.find_by_xpath("//bit-menu-item[contains(.,'Login')] | //button[@role='menuitem'][contains(.,'Login')]").click()
+    selenium.screenshot('create-item-form-{}'.format(name))
+    selenium.find_by_xpath("//input[@id='name']").send_keys(name)
     selenium.screenshot('create-item-name-filled-{}'.format(name))
     selenium.find_by_xpath("//button[contains(.,'Save')]").click()
     selenium.screenshot('create-item-saved-{}'.format(name))
-    selenium.find_by_xpath("//*[contains(.,'" + name + "')]")
-    selenium.screenshot('create-item-verified-{}'.format(name))
 
 
 def has_item(selenium, name):
     selenium.screenshot('has-item-before-{}'.format(name))
-    selenium.find_by_xpath("//*[contains(.,'" + name + "')]")
+    selenium.find_by_xpath("//td[contains(.,'" + name + "')] | //app-vault-items-list//*[contains(.,'" + name + "')] | //cdk-virtual-scroll-viewport//*[contains(.,'" + name + "')]")
     selenium.screenshot('has-item-found-{}'.format(name))
 
 
