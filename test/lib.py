@@ -51,7 +51,7 @@ def create_item(selenium, name):
     selenium.screenshot('create-item-dropdown-{}'.format(name))
     selenium.find_by_xpath("//bit-menu-item[contains(.,'Login')] | //button[@role='menuitem'][contains(.,'Login')]").click()
     selenium.screenshot('create-item-form-{}'.format(name))
-    selenium.find_by_xpath("//input[@id='name']").send_keys(name)
+    selenium.find_by_xpath("//input[@formcontrolname='name']").send_keys(name)
     selenium.screenshot('create-item-name-filled-{}'.format(name))
     selenium.find_by_xpath("//button[contains(.,'Save')]").click()
     selenium.screenshot('create-item-saved-{}'.format(name))
