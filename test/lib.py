@@ -36,6 +36,24 @@ def login_upgrade(selenium, device_user, ui_mode):
     selenium.find_by_xpath("//h1[contains(.,'All vaults')]")
 
 
+def create_item(selenium, name):
+    selenium.screenshot('create-item-before-{}'.format(name))
+    selenium.find_by_xpath("//*[contains(@class,'bwi-plus') or contains(.,'New item') or contains(.,'New')]//ancestor::button | //button[contains(.,'New')]").click()
+    selenium.screenshot('create-item-clicked-new-{}'.format(name))
+    selenium.find_by_xpath("//input[@formcontrolname='name' or @id='name' or @placeholder='Item name'] | //input[contains(@class,'item-name')]").send_keys(name)
+    selenium.screenshot('create-item-name-filled-{}'.format(name))
+    selenium.find_by_xpath("//button[contains(.,'Save')]").click()
+    selenium.screenshot('create-item-saved-{}'.format(name))
+    selenium.find_by_xpath("//*[contains(.,'" + name + "')]")
+    selenium.screenshot('create-item-verified-{}'.format(name))
+
+
+def has_item(selenium, name):
+    selenium.screenshot('has-item-before-{}'.format(name))
+    selenium.find_by_xpath("//*[contains(.,'" + name + "')]")
+    selenium.screenshot('has-item-found-{}'.format(name))
+
+
 def unlock(selenium):
     selenium.find_by_xpath("//span[contains(.,'Unlock')]").click()
     selenium.find_by_xpath("//input[@type='password']").send_keys(PASSWORD)

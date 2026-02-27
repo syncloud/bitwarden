@@ -44,8 +44,21 @@ def test_register_prev(device, selenium, device_user, device_password, device_ho
     selenium.screenshot('upgrade-before')
 
     lib.register_prev(selenium, device_user, ui_mode)
-    time.sleep(5)
     selenium.screenshot('register-done')
+
+
+@pytest.mark.flaky(retries=3, delay=10)
+def test_login_prev(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
+    selenium.open_app()
+    selenium.driver.delete_all_cookies()
+    selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
+    selenium.open_app(path='#/')
+    lib.login_upgrade(selenium, 'prev-' + device_user, ui_mode)
+    selenium.screenshot('login-prev-done')
+
+
+def test_create_item_prev(selenium):
+    lib.create_item(selenium, 'pre-upgrade-secret')
 
 
 def test_upgrade(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
@@ -62,3 +75,15 @@ def test_login_next(device, selenium, device_user, device_password, device_host,
     lib.login_upgrade(selenium, 'prev-' + device_user, ui_mode)
     selenium.screenshot('upgraded')
 
+
+def test_verify_item_next(selenium):
+    lib.has_item(selenium, 'pre-upgrade-secret')
+
+
+def test_create_item_next(selenium):
+    lib.create_item(selenium, 'post-upgrade-secret')
+
+
+def test_verify_items_next(selenium):
+    lib.has_item(selenium, 'pre-upgrade-secret')
+    lib.has_item(selenium, 'post-upgrade-secret')
