@@ -32,7 +32,8 @@ def login_upgrade(selenium, device_user, ui_mode):
     selenium.screenshot('login-upgrade-credentials')
     selenium.find_by_xpath("//button[contains(.,'Log in with master password')]").click()
     selenium.find_by_xpath("//*[contains(text(), 'Add it later')]").click()
-    selenium.find_by_xpath("//h3[contains(text(), 'All vaults')]")
+    selenium.find_by_xpath("//*[contains(text(), 'Skip to web app')]").click()
+    selenium.find_by_xpath("//h1[contains(.,'All vaults')]")
 
 
 def unlock(selenium):
