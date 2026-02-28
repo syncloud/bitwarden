@@ -55,6 +55,8 @@ def create_item(selenium, name):
     selenium.screenshot('create-item-name-filled-{}'.format(name))
     selenium.find_by_xpath("//button[contains(.,'Save')]").click()
     selenium.screenshot('create-item-saved-{}'.format(name))
+    selenium.find_by_xpath("//button[@aria-label='Close' or @title='Close'] | //button[contains(@class,'close')]").click()
+    selenium.screenshot('create-item-closed-{}'.format(name))
 
 
 def has_item(selenium, name):
