@@ -1,14 +1,15 @@
 local name = "bitwarden";
 local nginx = '1.24.0';
-local version = "1.34.3";
+local version = "1.35.4";
 local browser = "firefox";
 local python = '3.12-slim-bookworm';
 local debian = 'bookworm-slim';
 local platform = '25.09';
+local platform_buster = '25.02';
 local selenium = '4.35.0-20250828';
 local deployer = 'https://github.com/syncloud/store/releases/download/4/syncloud-release';
 local distro_default = "bookworm";
-local distros = ["bookworm"];
+local distros = ["bookworm", "buster"];
 
 local build(arch, test_ui, dind) = [{
     kind: "pipeline",
@@ -48,16 +49,15 @@ local build(arch, test_ui, dind) = [{
             ]
         },
         {
-            name: "python",
-            image: "docker:" + dind,
+            name: "cli",
+            image: "golang:1.24.0",
             commands: [
-                "./python/build.sh"
-            ],
-            volumes: [
-                {
-                    name: "dockersock",
-                    path: "/var/run"
-                }
+                "cd cli",
+                "mkdir -p ../build/snap/meta/hooks",
+                "CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/meta/hooks/install ./cmd/install",
+                "CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/meta/hooks/configure ./cmd/configure",
+                "CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/meta/hooks/post-refresh ./cmd/post-refresh",
+                "CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/bin/cli ./cmd/cli",
             ]
         },
         {
@@ -247,7 +247,7 @@ local build(arch, test_ui, dind) = [{
             ] + [
     {
       name: name + '.' + distro + '.com',
-      image: 'syncloud/platform-' + distro + '-' + arch + ':' + platform,
+      image: 'syncloud/platform-' + distro + '-' + arch + ':' + (if distro == 'buster' then platform_buster else platform),
       privileged: true,
       volumes: [
         {

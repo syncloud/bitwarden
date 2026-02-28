@@ -17,7 +17,6 @@ apt -y install squashfs-tools
 
 cp -r ${DIR}/bin/* ${SNAP_DIR}/bin
 cp -r ${DIR}/config ${SNAP_DIR}
-cp -r ${DIR}/hooks ${SNAP_DIR}
 cp -r ${DIR}/meta ${SNAP_DIR}
 
 mkdir ${SNAP_DIR}/META

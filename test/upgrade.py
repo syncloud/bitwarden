@@ -1,3 +1,4 @@
+import time
 import pytest
 from subprocess import check_output
 from syncloudlib.integration.hosts import add_host_alias
@@ -37,11 +38,28 @@ def test_install_prev(device, selenium, device_user, device_password, device_hos
 @pytest.mark.flaky(retries=3, delay=10)
 def test_register_prev(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
     selenium.open_app()
-    selenium.driver.refresh()
+    selenium.driver.delete_all_cookies()
+    selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
+    selenium.open_app(path='#/')
     selenium.screenshot('upgrade-before')
 
     lib.register_prev(selenium, device_user, ui_mode)
-    lib.login(selenium)
+    time.sleep(5)
+    selenium.screenshot('register-done')
+
+
+@pytest.mark.flaky(retries=3, delay=10)
+def test_login_prev(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
+    selenium.open_app()
+    selenium.driver.delete_all_cookies()
+    selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
+    selenium.open_app(path='#/')
+    lib.login_stable(selenium, 'prev-' + device_user, ui_mode)
+    selenium.screenshot('login-prev-done')
+
+
+def test_create_item_prev(selenium):
+    lib.create_item(selenium, 'pre-upgrade-secret')
 
 
 def test_upgrade(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
@@ -52,6 +70,21 @@ def test_upgrade(device, selenium, device_user, device_password, device_host, ap
 @pytest.mark.flaky(retries=3, delay=10)
 def test_login_next(device, selenium, device_user, device_password, device_host, app_archive_path, app_domain, app_dir, ui_mode):
     selenium.open_app()
-    lib.unlock(selenium)
+    selenium.driver.delete_all_cookies()
+    selenium.driver.execute_script("localStorage.clear(); sessionStorage.clear();")
+    selenium.open_app(path='?_={}#/'.format(int(time.time())))
+    lib.login_upgrade(selenium, 'prev-' + device_user, ui_mode)
     selenium.screenshot('upgraded')
 
+
+def test_verify_item_next(selenium):
+    lib.has_item(selenium, 'pre-upgrade-secret')
+
+
+def test_create_item_next(selenium):
+    lib.create_item(selenium, 'post-upgrade-secret')
+
+
+def test_verify_items_next(selenium):
+    lib.has_item(selenium, 'pre-upgrade-secret')
+    lib.has_item(selenium, 'post-upgrade-secret')
