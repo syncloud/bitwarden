@@ -61,6 +61,11 @@ def test_index(app_domain):
     assert response.status_code == 200, response.text
 
 
+def test_notifications_hub_proxied(app_domain):
+    response = requests.get('https://{0}/notifications/hub'.format(app_domain), verify=False)
+    assert response.status_code != 502, response.text
+
+
 def test_storage_change_event(device):
     device.run_ssh('snap run bitwarden.storage-change > {0}/storage-change.log'.format(TMP_DIR))
 
