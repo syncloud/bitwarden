@@ -3,36 +3,14 @@ local nginx = '1.24.0';
 local version = '1.36.0';
 local python = '3.12-slim-bookworm';
 local debian = 'bookworm-slim';
-local platform = '26.03.1';
-local platform_buster = '25.02';
+local platform = '26.04.10';
 local playwright = 'mcr.microsoft.com/playwright:v1.48.2-jammy';
 local deployer = 'https://github.com/syncloud/store/releases/download/4/syncloud-release';
 local distro_default = 'bookworm';
 local distros = ['bookworm', 'buster'];
 
 local platform_image(distro, arch) =
-  'syncloud/platform-' + distro + '-' + arch + ':' + (if distro == 'buster' then platform_buster else platform);
-
-local playwright_env(distro, artifact) = {
-  PLAYWRIGHT_FULL_DOMAIN: distro + '.com',
-  PLAYWRIGHT_APP_DOMAIN: name + '.' + distro + '.com',
-  PLAYWRIGHT_DEVICE_HOST: name + '.' + distro + '.com',
-  PLAYWRIGHT_DEVICE_USER: 'user',
-  PLAYWRIGHT_DEVICE_PASSWORD: 'Password1',
-  PLAYWRIGHT_ARTIFACT_DIR: '/drone/src/artifact/' + artifact,
-};
-
-local playwright_step(step_name, artifact, spec) = {
-  name: step_name,
-  image: playwright,
-  environment: playwright_env(distro_default, artifact),
-  commands: [
-    'apt-get update -qq && apt-get install -y -qq sshpass openssh-client curl',
-    'cd test/e2e',
-    'npm ci --no-audit --no-fund',
-    'npx playwright test --project=desktop ' + spec,
-  ],
-};
+  'syncloud/platform-' + distro + '-' + arch + ':' + platform;
 
 local build(arch, test_ui, dind) = [{
   kind: 'pipeline',
@@ -78,12 +56,7 @@ local build(arch, test_ui, dind) = [{
       name: 'cli',
       image: 'golang:1.24.0',
       commands: [
-        'cd cli',
-        'mkdir -p ../build/snap/meta/hooks',
-        'CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/meta/hooks/install ./cmd/install',
-        'CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/meta/hooks/configure ./cmd/configure',
-        'CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/meta/hooks/post-refresh ./cmd/post-refresh',
-        'CGO_ENABLED=0 go build -buildvcs=false -o ../build/snap/bin/cli ./cmd/cli',
+        './cli/build.sh',
       ],
     },
     {
@@ -106,7 +79,21 @@ local build(arch, test_ui, dind) = [{
     }
     for distro in distros
   ] + (if test_ui then [
-         playwright_step('e2e', 'e2e', 'specs/01-smoke.spec.ts'),
+         {
+           name: 'e2e',
+           image: playwright,
+           environment: {
+             PLAYWRIGHT_FULL_DOMAIN: distro_default + '.com',
+             PLAYWRIGHT_APP_DOMAIN: name + '.' + distro_default + '.com',
+             PLAYWRIGHT_DEVICE_HOST: name + '.' + distro_default + '.com',
+             PLAYWRIGHT_DEVICE_USER: 'user',
+             PLAYWRIGHT_DEVICE_PASSWORD: 'Password1',
+             PLAYWRIGHT_ARTIFACT_DIR: '/drone/src/artifact/e2e',
+           },
+           commands: [
+             './test/e2e/run.sh specs/01-smoke.spec.ts',
+           ],
+         },
          {
            name: 'test-upgrade-prev',
            image: 'python:' + python,
@@ -116,7 +103,21 @@ local build(arch, test_ui, dind) = [{
              'py.test -x -s upgrade_prev.py --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name,
            ],
          },
-         playwright_step('e2e-before-upgrade', 'e2e-before-upgrade', 'specs/02-pre-upgrade.spec.ts'),
+         {
+           name: 'e2e-before-upgrade',
+           image: playwright,
+           environment: {
+             PLAYWRIGHT_FULL_DOMAIN: distro_default + '.com',
+             PLAYWRIGHT_APP_DOMAIN: name + '.' + distro_default + '.com',
+             PLAYWRIGHT_DEVICE_HOST: name + '.' + distro_default + '.com',
+             PLAYWRIGHT_DEVICE_USER: 'user',
+             PLAYWRIGHT_DEVICE_PASSWORD: 'Password1',
+             PLAYWRIGHT_ARTIFACT_DIR: '/drone/src/artifact/e2e-before-upgrade',
+           },
+           commands: [
+             './test/e2e/run.sh specs/02-pre-upgrade.spec.ts',
+           ],
+         },
          {
            name: 'test-upgrade',
            image: 'python:' + python,
@@ -126,7 +127,21 @@ local build(arch, test_ui, dind) = [{
              'py.test -x -s upgrade.py --distro=' + distro_default + ' --ver=$DRONE_BUILD_NUMBER --app=' + name,
            ],
          },
-         playwright_step('e2e-after-upgrade', 'e2e-after-upgrade', 'specs/03-post-upgrade.spec.ts'),
+         {
+           name: 'e2e-after-upgrade',
+           image: playwright,
+           environment: {
+             PLAYWRIGHT_FULL_DOMAIN: distro_default + '.com',
+             PLAYWRIGHT_APP_DOMAIN: name + '.' + distro_default + '.com',
+             PLAYWRIGHT_DEVICE_HOST: name + '.' + distro_default + '.com',
+             PLAYWRIGHT_DEVICE_USER: 'user',
+             PLAYWRIGHT_DEVICE_PASSWORD: 'Password1',
+             PLAYWRIGHT_ARTIFACT_DIR: '/drone/src/artifact/e2e-after-upgrade',
+           },
+           commands: [
+             './test/e2e/run.sh specs/03-post-upgrade.spec.ts',
+           ],
+         },
        ] else []) + [
     {
       name: 'upload',
