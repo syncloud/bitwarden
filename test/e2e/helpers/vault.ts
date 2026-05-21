@@ -2,8 +2,25 @@ import { Page, expect } from '@playwright/test'
 
 export const MASTER_PASSWORD = 'Ngpqy8Bfk123'
 
+async function gotoAndWaitFor(page: Page, anchorSelector: string) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    if (attempt === 0) {
+      await page.goto('/')
+    } else {
+      await page.reload()
+    }
+    try {
+      await page.locator(anchorSelector).first().waitFor({ state: 'visible', timeout: 30_000 })
+      return
+    } catch {
+      // bundle may have 502'd on cold-start nginx upstream; retry
+    }
+  }
+  await page.locator(anchorSelector).first().waitFor({ state: 'visible', timeout: 30_000 })
+}
+
 export async function registerUser(page: Page, email: string) {
-  await page.goto('/')
+  await gotoAndWaitFor(page, 'a:has-text("Create account")')
   await page.locator('a:has-text("Create account")').click()
   await page.locator('#register-start_form_input_email').fill(email)
   await page.locator('#register-start_form_input_name').fill('Test User')
@@ -17,7 +34,7 @@ export async function loginUser(page: Page, email: string) {
   await page.goto('/')
   await page.context().clearCookies()
   await page.evaluate(() => { localStorage.clear(); sessionStorage.clear() })
-  await page.goto('/#/')
+  await gotoAndWaitFor(page, 'input.vw-email-continue, input[type="email"]')
   await page.locator('input.vw-email-continue, input[type="email"]').first().fill(email)
   await page.locator('button:has-text("Continue"), span:has-text("Continue")').first().click()
   await page.locator('input[type="password"]').first().fill(MASTER_PASSWORD)
