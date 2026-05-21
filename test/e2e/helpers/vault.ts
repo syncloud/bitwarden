@@ -25,13 +25,12 @@ export async function loginUser(page: Page, email: string) {
 }
 
 export async function dismissPostLoginPrompts(page: Page) {
-  const addLater = page.locator(':text("Add it later")').first()
-  if (await addLater.isVisible({ timeout: 10_000 }).catch(() => false)) {
-    await addLater.click()
-  }
-  const skip = page.locator(':text("Skip to web app")').first()
-  if (await skip.isVisible({ timeout: 10_000 }).catch(() => false)) {
-    await skip.click()
+  for (const text of ['Add it later', 'Skip to web app']) {
+    try {
+      await page.getByText(text, { exact: false }).first().click({ timeout: 15_000 })
+    } catch {
+      // prompt not shown in this flow
+    }
   }
 }
 
