@@ -18,9 +18,9 @@ export async function loginUser(page: Page, email: string) {
   await page.context().clearCookies()
   await page.evaluate(() => { localStorage.clear(); sessionStorage.clear() })
   await page.goto('/#/')
-  await page.locator('input[type="email"]').fill(email)
-  await page.locator('span:has-text("Continue")').click()
-  await page.locator('input[type="password"]').fill(MASTER_PASSWORD)
+  await page.locator('input.vw-email-continue, input[type="email"]').first().fill(email)
+  await page.locator('button:has-text("Continue"), span:has-text("Continue")').first().click()
+  await page.locator('input[type="password"]').first().fill(MASTER_PASSWORD)
   await page.locator('button:has-text("Log in with master password")').click()
 }
 
