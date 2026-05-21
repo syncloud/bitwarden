@@ -12,7 +12,7 @@ local distros = ['bookworm', 'buster'];
 local platform_image(distro, arch) =
   'syncloud/platform-' + distro + '-' + arch + ':' + platform;
 
-local build(arch, test_ui, dind) = [{
+local build(arch, test_ui) = [{
   kind: 'pipeline',
   type: 'docker',
   name: arch,
@@ -205,16 +205,6 @@ local build(arch, test_ui, dind) = [{
   },
   services: [
     {
-      name: 'docker',
-      image: 'docker:' + dind,
-      privileged: true,
-      volumes: [{
-        name: 'dockersock',
-        path: '/var/run',
-      }],
-    },
-  ] + [
-    {
       name: name + '.' + distro + '.com',
       image: platform_image(distro, arch),
       privileged: true,
@@ -228,10 +218,9 @@ local build(arch, test_ui, dind) = [{
   volumes: [
     { name: 'dbus', host: { path: '/var/run/dbus' } },
     { name: 'dev', host: { path: '/dev' } },
-    { name: 'dockersock', temp: {} },
   ],
 }];
 
-build('amd64', true, '20.10.21-dind') +
-build('arm64', false, '19.03.8-dind') +
-build('arm', false, '19.03.8-dind')
+build('amd64', true) +
+build('arm64', false) +
+build('arm', false)
