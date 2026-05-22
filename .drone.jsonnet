@@ -92,16 +92,8 @@ local build(arch, test_ui) = [{
          {
            name: 'e2e',
            image: playwright,
-           environment: {
-             PLAYWRIGHT_FULL_DOMAIN: distro_default + '.com',
-             PLAYWRIGHT_APP_DOMAIN: name + '.' + distro_default + '.com',
-             PLAYWRIGHT_DEVICE_HOST: name + '.' + distro_default + '.com',
-             PLAYWRIGHT_DEVICE_USER: 'user',
-             PLAYWRIGHT_DEVICE_PASSWORD: 'Password1',
-             PLAYWRIGHT_ARTIFACT_DIR: '/drone/src/artifact/e2e',
-           },
            commands: [
-             './test/e2e/run.sh specs/01-smoke.spec.ts',
+             './test/e2e/run.sh e2e specs/01-smoke.spec.ts',
            ],
          },
          {
@@ -116,16 +108,8 @@ local build(arch, test_ui) = [{
          {
            name: 'e2e-before-upgrade',
            image: playwright,
-           environment: {
-             PLAYWRIGHT_FULL_DOMAIN: distro_default + '.com',
-             PLAYWRIGHT_APP_DOMAIN: name + '.' + distro_default + '.com',
-             PLAYWRIGHT_DEVICE_HOST: name + '.' + distro_default + '.com',
-             PLAYWRIGHT_DEVICE_USER: 'user',
-             PLAYWRIGHT_DEVICE_PASSWORD: 'Password1',
-             PLAYWRIGHT_ARTIFACT_DIR: '/drone/src/artifact/e2e-before-upgrade',
-           },
            commands: [
-             './test/e2e/run.sh specs/02-pre-upgrade.spec.ts',
+             './test/e2e/run.sh e2e-before-upgrade specs/02-pre-upgrade.spec.ts',
            ],
          },
          {
@@ -140,16 +124,8 @@ local build(arch, test_ui) = [{
          {
            name: 'e2e-after-upgrade',
            image: playwright,
-           environment: {
-             PLAYWRIGHT_FULL_DOMAIN: distro_default + '.com',
-             PLAYWRIGHT_APP_DOMAIN: name + '.' + distro_default + '.com',
-             PLAYWRIGHT_DEVICE_HOST: name + '.' + distro_default + '.com',
-             PLAYWRIGHT_DEVICE_USER: 'user',
-             PLAYWRIGHT_DEVICE_PASSWORD: 'Password1',
-             PLAYWRIGHT_ARTIFACT_DIR: '/drone/src/artifact/e2e-after-upgrade',
-           },
            commands: [
-             './test/e2e/run.sh specs/03-post-upgrade.spec.ts',
+             './test/e2e/run.sh e2e-after-upgrade specs/03-post-upgrade.spec.ts',
            ],
          },
        ] else []) + [
