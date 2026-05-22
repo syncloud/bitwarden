@@ -46,12 +46,22 @@ local build(arch, test_ui) = [{
     for distro in distros
   ] + [
     {
-      name: 'build',
+      name: 'vaultwarden',
       image: 'vaultwarden/server:' + version + '-alpine',
       commands: [
-        './build.sh',
+        './vaultwarden/build.sh',
       ],
     },
+  ] + [
+    {
+      name: 'vaultwarden test ' + distro,
+      image: platform_image(distro, arch),
+      commands: [
+        './vaultwarden/test.sh',
+      ],
+    }
+    for distro in distros
+  ] + [
     {
       name: 'cli',
       image: 'golang:1.24.0',
