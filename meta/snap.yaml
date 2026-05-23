@@ -39,7 +39,7 @@ apps:
     command: bin/openssl
 
 confinement: strict
-description: Bitwarden
+description: Password Manager.
 grade: stable
 name: bitwarden
-summary: Password management
+summary: Bitwarden
