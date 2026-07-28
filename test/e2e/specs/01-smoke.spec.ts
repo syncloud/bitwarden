@@ -4,7 +4,7 @@ import {
   registerUser,
   dismissPostLoginPrompts,
   expectAtVault,
-} from '../helpers/vault'
+} from '../helpers/vault-next'
 
 const email = 'smoke@example.com'
 

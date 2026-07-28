@@ -6,7 +6,7 @@ import {
   expectAtVault,
   createItem,
   expectItem,
-} from '../helpers/vault'
+} from '../helpers/vault-next'
 
 const email = 'upgrade@example.com'
 const preItem = 'pre-upgrade-secret'
