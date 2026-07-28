@@ -34,11 +34,11 @@ export async function loginUser(page: Page, email: string) {
   await page.goto('/')
   await page.context().clearCookies()
   await page.evaluate(() => { localStorage.clear(); sessionStorage.clear() })
-  await gotoAndWaitFor(page, 'input.vw-email-continue, input[type="email"]')
-  await page.locator('input.vw-email-continue, input[type="email"]').first().fill(email)
-  await page.locator('button:has-text("Continue"), span:has-text("Continue")').first().click()
-  await page.locator('input[type="password"]').first().fill(MASTER_PASSWORD)
-  await page.locator('button:has-text("Log in with master password")').click()
+  await gotoAndWaitFor(page, '[data-testid="login-email-input"]')
+  await page.getByTestId('login-email-input').fill(email)
+  await page.getByTestId('login-continue-button').click()
+  await page.getByTestId('login-master-password-input').fill(MASTER_PASSWORD)
+  await page.getByTestId('login-submit-button').click()
 }
 
 export async function dismissPostLoginPrompts(page: Page) {
@@ -49,6 +49,16 @@ export async function dismissPostLoginPrompts(page: Page) {
       // prompt not shown in this flow
     }
   }
+  try {
+    await page.getByRole('button', { name: 'Skip', exact: true }).click({ timeout: 15_000 })
+  } catch {
+    // onboarding tour not shown in this flow
+  }
+  await page
+    .locator('.cdk-overlay-backdrop')
+    .first()
+    .waitFor({ state: 'detached', timeout: 15_000 })
+    .catch(() => {})
 }
 
 export async function expectAtVault(page: Page) {
