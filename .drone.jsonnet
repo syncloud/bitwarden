@@ -3,14 +3,13 @@ local nginx = '1.24.0';
 local version = '1.37.0';
 local python = '3.12-slim-bookworm';
 local debian = 'bookworm-slim';
-local platform = '26.04.10';
+local platform = '26.10.01';
 local playwright = 'mcr.microsoft.com/playwright:v1.48.2-jammy';
 local store_publisher = 'stable-346';
 local distro_default = 'bookworm';
 local distros = ['bookworm', 'buster'];
 
-local platform_image(distro, arch) =
-  'syncloud/platform-' + distro + '-' + arch + ':' + platform;
+local platform_image(distro) = 'syncloud/platform-' + distro + ':' + platform;
 
 local build(arch, test_ui) = [{
   kind: 'pipeline',
@@ -38,7 +37,7 @@ local build(arch, test_ui) = [{
   ] + [
     {
       name: 'nginx test ' + distro,
-      image: platform_image(distro, arch),
+      image: platform_image(distro),
       commands: [
         './nginx/test.sh',
       ],
@@ -55,7 +54,7 @@ local build(arch, test_ui) = [{
   ] + [
     {
       name: 'vaultwarden test ' + distro,
-      image: platform_image(distro, arch),
+      image: platform_image(distro),
       commands: [
         './vaultwarden/test.sh',
       ],
@@ -165,7 +164,7 @@ local build(arch, test_ui) = [{
   services: [
     {
       name: name + '.' + distro + '.com',
-      image: platform_image(distro, arch),
+      image: platform_image(distro),
       privileged: true,
       volumes: [
         { name: 'dbus', path: '/var/run/dbus' },
